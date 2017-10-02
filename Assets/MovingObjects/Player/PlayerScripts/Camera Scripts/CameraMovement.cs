@@ -6,18 +6,12 @@ public class CameraMovement : MonoBehaviour
 {
 	public float sens;
     private float yCameraMovement;
-    private float xCameraMovement;//not used for now
-
-	// Use this for initialization
-	void Start () {
-		
-	}
+    private float xCameraMovement;
 
     // Update is called once per frame
     void FixedUpdate()
     {
         xCameraMovement += sens * Input.GetAxis("Mouse X");
-        //float xCameraMovement = Input.GetAxis("Mouse X");
         yCameraMovement -= sens* Input.GetAxis("Mouse Y");
 		if(yCameraMovement > 90)
 		{

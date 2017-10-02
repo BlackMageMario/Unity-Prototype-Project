@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour {
 	public float forwardSpeed;
 	public float backwardSpeed;
 	public float sidewaySpeed;
+    public float jumpForce;
     private Rigidbody body;
     private Camera bodyCamera;
 	// Use this for initialization
@@ -38,7 +39,8 @@ public class PlayerMovement : MonoBehaviour {
         }
 		if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, Vector3.down, 1f))
 		{
-			body.AddForce(transform.up * 400);
+            Debug.Log("Jumping");
+			body.AddForce(transform.up * jumpForce);
 		}
         transform.eulerAngles = new Vector3(this.transform.eulerAngles.x, bodyCamera.transform.eulerAngles.y, this.transform.eulerAngles.z);
     }
