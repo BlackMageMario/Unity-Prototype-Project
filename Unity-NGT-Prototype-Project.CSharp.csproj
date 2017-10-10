@@ -78,14 +78,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GameScripts\Enemy\EnemyHealthManager.cs" />
+    <Compile Include="Assets\GameScripts\Enemy\EnemyMovementManager.cs" />
+    <Compile Include="Assets\GameScripts\Enemy\EnemyMovementStats.cs" />
+    <Compile Include="Assets\GameScripts\Health\HealthManager.cs" />
+    <Compile Include="Assets\GameScripts\Health\HealthStats.cs" />
+    <Compile Include="Assets\GameScripts\Weapons\WeaponBehaviour.cs" />
+    <Compile Include="Assets\GameScripts\Weapons\WeaponData.cs" />
+    <Compile Include="Assets\GameScripts\Weapons\WeaponManager.cs" />
+    <Compile Include="Assets\GameScripts\Weapons\WeaponProjectile.cs" />
     <Compile Include="Assets\MovingObjects\Player\PlayerScripts\Camera Scripts\CameraMovement.cs" />
     <Compile Include="Assets\MovingObjects\Player\PlayerScripts\PlayerInteraction.cs" />
     <Compile Include="Assets\MovingObjects\Player\PlayerScripts\PlayerMovement.cs" />
     <Compile Include="Assets\Prefabs\Projectiles\BasicRayCast.cs" />
-    <Compile Include="Assets\Prefabs\Weapons\WeaponBehaviour.cs" />
-    <Compile Include="Assets\Prefabs\Weapons\WeaponData.cs" />
-    <Compile Include="Assets\Prefabs\Weapons\WeaponManager.cs" />
-    <Compile Include="Assets\Prefabs\Weapons\WeaponProjectile.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

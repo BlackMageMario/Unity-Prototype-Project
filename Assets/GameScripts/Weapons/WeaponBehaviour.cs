@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponBehaviour : MonoBehaviour {
     public WeaponData weaponData;//this weapon's data
-    public Camera bodyCamera;
+    public Camera bodyCamera;//maybe find camera instead of assigning it
     private WeaponProjectile projectile;// the projectile we fire - either just a bullet we show for visuals
     //or an actual projectile
     //projectiles will override our fireBullet method
     //private int damage;//the damage of the bullet - we pass this onto any weapon taht's a projectile
+    private GameObject ammoTextUI;
+    private Text ammoText;
     private float fireRate;
     private int magazineSize;//size of the magazine
     private int currentMagazine;//size of our magazine right now
@@ -18,6 +21,8 @@ public class WeaponBehaviour : MonoBehaviour {
     private bool canFire;
     
     protected virtual void Start () {
+        ammoTextUI = GameObject.Find("AmmoCount");
+        ammoText = ammoTextUI.GetComponent<Text>();
         canFire = true;
         projectile = weaponData.projectile;
         fireRate = weaponData.fireRate;
@@ -25,7 +30,9 @@ public class WeaponBehaviour : MonoBehaviour {
         currentMagazine = magazineSize;
         reloadSpeed = weaponData.reloadSpeed;
         spread = weaponData.spread;
+        updateAmmoText();
 	}
+
     public void fireGun()
     {
         if (canFire)
@@ -42,10 +49,15 @@ public class WeaponBehaviour : MonoBehaviour {
                 StopCoroutine(canFireWeapon());//stop this
                 StartCoroutine(reloadMagazine());
             }
-
+            updateAmmoText();
         }
-
     }
+    private void updateAmmoText()
+    {
+        //update the ammo text area
+        ammoText.text = "Ammo Count:\n" + currentMagazine+"/"+magazineSize;
+    }
+
     protected virtual void FixedUpdate()
     {
         //this can be overrided
@@ -58,7 +70,8 @@ public class WeaponBehaviour : MonoBehaviour {
         //default code for hitscan weapon
         //we need to detect whether we have attacked something
         //first create projectile - in this instance it travels so fast you can't tell its not hitscan
-        GameObject firedProjectile = Instantiate(projectile.gameObject, transform.position,
+        //NOTE: X -> side, Z-> in front in this example
+        GameObject firedProjectile = Instantiate(projectile.gameObject, bodyCamera.transform.position /*+ new Vector3(0, 0, 0.5f)*/,
             bodyCamera.transform.rotation * Quaternion.Euler(0, -90, 0));
         firedProjectile.GetComponent<WeaponProjectile>().weaponStats(weaponData.damage, weaponData.projectileSpeed);
         currentMagazine -= 1;//take away a bullet
@@ -82,6 +95,7 @@ public class WeaponBehaviour : MonoBehaviour {
         Debug.Log("Finished");
         currentMagazine = magazineSize;
         canFire = true;
+        updateAmmoText();
     }
 
 

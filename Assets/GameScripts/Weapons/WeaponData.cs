@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "Weapon Details", menuName = "Weapons", order = 1)]
+[CreateAssetMenu(fileName = "Weapon Details", menuName = "Weapons/Weapon Detail", order = 1)]
 public class WeaponData : ScriptableObject {
     //we'll just attach this to the weapon prefab itself
     

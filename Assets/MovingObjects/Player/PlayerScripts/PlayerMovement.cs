@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             //these below are the same and appear to be time.deltatime'd
             //body.velocity = new Vector3(0, 0, 1) * 20;
+            Debug.Log(transform.forward);
             body.AddForce(transform.forward * forwardSpeed);
             //this one is not time.deltatimed'd
             //body.MovePosition(this.transform.position + new Vector3(0, 0, 1) * Time.deltaTime * 20);
