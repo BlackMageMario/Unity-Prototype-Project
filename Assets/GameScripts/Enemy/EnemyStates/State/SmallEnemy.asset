@@ -8,11 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8be3d09c086bb3345b8ba2a2850d0067, type: 3}
-  m_Name: CrappyEnemyMovementStats
+  m_Script: {fileID: 11500000, guid: d532891c6986db240bf72acb9748e7d5, type: 3}
+  m_Name: SmallEnemy
   m_EditorClassIdentifier: 
-  forwardSpeed: 13
-  backwardSpeed: 10
-  sidewaySpeed: 10
-  jumpForce: 10
-  engageDistance: 10
+  actions:
+  - {fileID: 11400000, guid: 2d0cffa7b23363044bb565faee0b43ff, type: 2}
+  - {fileID: 11400000, guid: cd5c0de11fa6e8d44a1c96692173daf0, type: 2}

@@ -26,16 +26,19 @@ public class WeaponProjectile : MonoBehaviour {
     //collision detection
     //we'll use triggers for this
     //right now we'll just make them disappear if they hit anything solid
-    void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        HealthManager healthObject = other.GetComponent<HealthManager>();
-        if (healthObject)//i think this chekcs if hte object exists. I'm surprised it works
+        if (!other.GetComponent<WeaponProjectile>())
         {
-            healthObject.takeDamage(damage);
+            //as long as the object isn't another projectile it can't
+            //destroy it
+            //
+            HealthManager healthObject = other.GetComponent<HealthManager>();
+            if (healthObject)//i think this chekcs if hte object exists. I'm surprised it works
+            {
+                healthObject.takeDamage(damage);
+            }
+            Destroy(this.gameObject);
         }
-        Destroy(this.gameObject);
-        //hit detection code
-        //for now let's destroy it
-        //because we need to figure out what it should detect
     }
 }

@@ -3,23 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WeaponBehaviour : MonoBehaviour {
+public class WeaponBehaviour : MonoBehaviour
+{
     public WeaponData weaponData;//this weapon's data
-    public Camera bodyCamera;//maybe find camera instead of assigning it
-    private WeaponProjectile projectile;// the projectile we fire - either just a bullet we show for visuals
+    public GameObject firePoint;//need to find point rather than doing it this way
+    protected WeaponProjectile projectile;// the projectile we fire - either just a bullet we show for visuals
     //or an actual projectile
     //projectiles will override our fireBullet method
     //private int damage;//the damage of the bullet - we pass this onto any weapon taht's a projectile
+    
+    protected float fireRate;
+    protected int magazineSize;//size of the magazine
+    protected int currentMagazine;//size of our magazine right now
+    protected float reloadSpeed;//reload speed of the gun
+    protected float spread;//spread of the gun - spread of 0 would be perfect shot every time
+    // Use this for initialization
+    protected bool canFire;
     private GameObject ammoTextUI;
     private Text ammoText;
-    private float fireRate;
-    private int magazineSize;//size of the magazine
-    private int currentMagazine;//size of our magazine right now
-    private float reloadSpeed;//reload speed of the gun
-    private float spread;//spread of the gun - spread of 0 would be perfect shot every time
-    // Use this for initialization
-    private bool canFire;
-    
+
     protected virtual void Start () {
         ammoTextUI = GameObject.Find("AmmoCount");
         ammoText = ammoTextUI.GetComponent<Text>();
@@ -33,7 +35,7 @@ public class WeaponBehaviour : MonoBehaviour {
         updateAmmoText();
 	}
 
-    public void fireGun()
+    public virtual void fireGun()
     {
         if (canFire)
         {
@@ -71,14 +73,15 @@ public class WeaponBehaviour : MonoBehaviour {
         //we need to detect whether we have attacked something
         //first create projectile - in this instance it travels so fast you can't tell its not hitscan
         //NOTE: X -> side, Z-> in front in this example
-        GameObject firedProjectile = Instantiate(projectile.gameObject, bodyCamera.transform.position /*+ new Vector3(0, 0, 0.5f)*/,
-            bodyCamera.transform.rotation * Quaternion.Euler(0, -90, 0));
+        GameObject firedProjectile = Instantiate(projectile.gameObject, firePoint.transform.position /*+ new Vector3(0, 0, 0.5f)*/,
+            firePoint.transform.rotation * Quaternion.Euler(0, -90, 0));
+        Debug.Log("Position of spawned bullet (world coordinates): " + firedProjectile.transform.position);
         firedProjectile.GetComponent<WeaponProjectile>().weaponStats(weaponData.damage, weaponData.projectileSpeed);
         currentMagazine -= 1;//take away a bullet
         Debug.Log(currentMagazine);
     }
 
-    IEnumerator canFireWeapon()
+    protected virtual IEnumerator canFireWeapon()
     {
         canFire = false;
         yield return new WaitForSeconds(1/fireRate);

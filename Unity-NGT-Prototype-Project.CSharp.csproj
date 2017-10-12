@@ -81,6 +81,12 @@
     <Compile Include="Assets\GameScripts\Enemy\EnemyHealthManager.cs" />
     <Compile Include="Assets\GameScripts\Enemy\EnemyMovementManager.cs" />
     <Compile Include="Assets\GameScripts\Enemy\EnemyMovementStats.cs" />
+    <Compile Include="Assets\GameScripts\Enemy\EnemyStates\Action.cs" />
+    <Compile Include="Assets\GameScripts\Enemy\EnemyStates\Actions\ChaseAction.cs" />
+    <Compile Include="Assets\GameScripts\Enemy\EnemyStates\Actions\ShootAction.cs" />
+    <Compile Include="Assets\GameScripts\Enemy\EnemyStates\EnemyWeaponBehaviour.cs" />
+    <Compile Include="Assets\GameScripts\Enemy\EnemyStates\State.cs" />
+    <Compile Include="Assets\GameScripts\Enemy\EnemyStates\StateManager.cs" />
     <Compile Include="Assets\GameScripts\Health\HealthManager.cs" />
     <Compile Include="Assets\GameScripts\Health\HealthStats.cs" />
     <Compile Include="Assets\GameScripts\Weapons\WeaponBehaviour.cs" />

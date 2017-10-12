@@ -9,14 +9,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdc664ae888dd8445bb0041981f70e1f, type: 3}
-  m_Name: Pistol
+  m_Name: EnemyPistol
   m_EditorClassIdentifier: 
   projectile: {fileID: 114038233847221708, guid: 9c60dacd94dd47e42917850c17c24821,
     type: 2}
   damage: 20
-  magazineSize: 5
-  fireRate: 100
-  singleFire: 0
-  projectileSpeed: 100
-  reloadSpeed: 2
-  spread: 0
+  magazineSize: 10
+  fireRate: 10
+  singleFire: 1
+  projectileSpeed: 40
+  reloadSpeed: 4
+  spread: 1

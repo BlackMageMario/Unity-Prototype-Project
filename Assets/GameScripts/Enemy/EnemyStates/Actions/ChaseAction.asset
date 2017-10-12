@@ -8,11 +8,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8be3d09c086bb3345b8ba2a2850d0067, type: 3}
-  m_Name: CrappyEnemyMovementStats
+  m_Script: {fileID: 11500000, guid: b65deb7653d05b648bb90706b39abb67, type: 3}
+  m_Name: ChaseAction
   m_EditorClassIdentifier: 
-  forwardSpeed: 13
-  backwardSpeed: 10
-  sidewaySpeed: 10
-  jumpForce: 10
-  engageDistance: 10
