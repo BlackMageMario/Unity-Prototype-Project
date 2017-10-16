@@ -6,21 +6,38 @@ public class WeaponProjectile : MonoBehaviour {
     private int damage;//damage from weapon data from the weapon behaviour
     private float projectileSpeed;
     private Rigidbody body;
-	void Start () {
+	protected virtual void Start () {
         body = GetComponent<Rigidbody>();
+		StartCoroutine(projectileReturn());
+		//Debug.Log("Position: " + transform.position);
+	}
+	protected virtual void OnDisable()
+	{
+		//resets position etc.
+		//needs to be done in on disable - ensure that every
+		//projectile has this
+		body.velocity = new Vector3(0, 0, 0);
+		body.angularVelocity = new Vector3(0, 0, 0);
+		body.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 	}
 
-    public void weaponStats(int weaponDamage, float weaponProjectileSpeed)
+	public virtual void weaponStats(int weaponDamage, float weaponProjectileSpeed)
     {
         //set up projectile stats
         damage = weaponDamage;
         projectileSpeed = weaponProjectileSpeed;
-    }
-
+		///Debug.Log("Initial Position: " + transform.position);
+	}
+	protected virtual IEnumerator projectileReturn()
+	{
+		yield return new WaitForSeconds(3f);//after ten seconds destroy this item
+		GetComponent<PooledObject>().pool.ReturnObject(this.gameObject);
+	}
 	
 	// Update is called once per frame
 	void FixedUpdate ()
     {
+		
         body.AddForce(transform.right * projectileSpeed);
 	}
     //collision detection
@@ -38,7 +55,8 @@ public class WeaponProjectile : MonoBehaviour {
             {
                 healthObject.takeDamage(damage);
             }
-            Destroy(this.gameObject);
+			GetComponent<PooledObject>().pool.ReturnObject(this.gameObject);
+            //Destroy(this.gameObject);
         }
     }
 }

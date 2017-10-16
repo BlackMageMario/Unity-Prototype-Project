@@ -7,6 +7,7 @@ public class WeaponBehaviour : MonoBehaviour
 {
     public WeaponData weaponData;//this weapon's data
     public GameObject firePoint;//need to find point rather than doing it this way
+	public int defaultProjectilesToPool;
     protected WeaponProjectile projectile;// the projectile we fire - either just a bullet we show for visuals
     //or an actual projectile
     //projectiles will override our fireBullet method
@@ -17,8 +18,9 @@ public class WeaponBehaviour : MonoBehaviour
     protected int currentMagazine;//size of our magazine right now
     protected float reloadSpeed;//reload speed of the gun
     protected float spread;//spread of the gun - spread of 0 would be perfect shot every time
-    // Use this for initialization
-    protected bool canFire;
+						   // Use this for initialization
+	protected GameObject pool;
+	protected bool canFire;
     private GameObject ammoTextUI;
     private Text ammoText;
 
@@ -32,6 +34,12 @@ public class WeaponBehaviour : MonoBehaviour
         currentMagazine = magazineSize;
         reloadSpeed = weaponData.reloadSpeed;
         spread = weaponData.spread;
+		if(!pool)
+		{
+			pool = new GameObject("Pool: " + projectile.name);
+			pool.AddComponent<ObjectPool>();
+			pool.GetComponent<ObjectPool>().setUpPool(projectile.gameObject, defaultProjectilesToPool);
+		}
         updateAmmoText();
 	}
 
@@ -69,16 +77,15 @@ public class WeaponBehaviour : MonoBehaviour
     }
     public virtual void weaponAttack()
     {
-        //default code for hitscan weapon
-        //we need to detect whether we have attacked something
-        //first create projectile - in this instance it travels so fast you can't tell its not hitscan
-        //NOTE: X -> side, Z-> in front in this example
-        GameObject firedProjectile = Instantiate(projectile.gameObject, firePoint.transform.position /*+ new Vector3(0, 0, 0.5f)*/,
-            firePoint.transform.rotation * Quaternion.Euler(0, -90, 0));
-        Debug.Log("Position of spawned bullet (world coordinates): " + firedProjectile.transform.position);
-        firedProjectile.GetComponent<WeaponProjectile>().weaponStats(weaponData.damage, weaponData.projectileSpeed);
+		//default code for projectile weapon
+		//we need to detect whether we have attacked something
+		//first create projectile - in this instance it travels so fast you can't tell its not hitscan
+		//NOTE: X -> side, Z-> in front in this example
+		GameObject firedProjectile = pool.GetComponent<ObjectPool>().spawnObject();
+		firedProjectile.transform.position = firePoint.transform.position;
+		firedProjectile.transform.rotation = firePoint.transform.rotation * Quaternion.Euler(0, -90, 0);
+		firedProjectile.GetComponent<WeaponProjectile>().weaponStats(weaponData.damage, weaponData.projectileSpeed);
         currentMagazine -= 1;//take away a bullet
-        Debug.Log(currentMagazine);
     }
 
     protected virtual IEnumerator canFireWeapon()
@@ -100,6 +107,4 @@ public class WeaponBehaviour : MonoBehaviour
         canFire = true;
         updateAmmoText();
     }
-
-
 }

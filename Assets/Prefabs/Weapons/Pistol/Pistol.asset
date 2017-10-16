@@ -17,6 +17,6 @@ MonoBehaviour:
   magazineSize: 5
   fireRate: 100
   singleFire: 0
-  projectileSpeed: 100
+  projectileSpeed: 200
   reloadSpeed: 2
   spread: 0

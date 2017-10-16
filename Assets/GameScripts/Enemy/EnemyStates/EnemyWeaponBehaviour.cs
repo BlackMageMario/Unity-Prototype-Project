@@ -13,7 +13,13 @@ public class EnemyWeaponBehaviour : WeaponBehaviour {
         currentMagazine = magazineSize;
         reloadSpeed = weaponData.reloadSpeed;
         spread = weaponData.spread;
-    }
+		if (!pool)
+		{
+			pool = new GameObject("Pool: " + projectile.name);
+			pool.AddComponent<ObjectPool>();
+			pool.GetComponent<ObjectPool>().setUpPool(projectile.gameObject, defaultProjectilesToPool);
+		}
+	}
 
     public override void fireGun()
     {
