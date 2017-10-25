@@ -14,8 +14,13 @@ public class EnemyHealthManager : HealthManager {
         {
             //guess i'll die
             Destroy(this.gameObject);
+            //return to pool once we have that sorted
         }
         Debug.Log("Health: " + currentHealth);
         //base.takeDamage(damage);
+    }
+    public override void resetHealth()
+    {
+        currentHealth = healthInfo.maxHealth;//needed for pooling
     }
 }

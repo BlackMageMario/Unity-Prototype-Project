@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class WeaponBehaviour : MonoBehaviour
 {
     public WeaponData weaponData;//this weapon's data
-    public GameObject firePoint;//need to find point rather than doing it this way
+    //public GameObject firePoint;//need to find point rather than doing it this way
 	public int defaultProjectilesToPool;
     protected WeaponProjectile projectile;// the projectile we fire - either just a bullet we show for visuals
     //or an actual projectile
@@ -21,12 +21,10 @@ public class WeaponBehaviour : MonoBehaviour
 						   // Use this for initialization
 	protected GameObject pool;
 	protected bool canFire;
-    private GameObject ammoTextUI;
-    private Text ammoText;
-
+    private Camera weaponCamera;
     protected virtual void Start () {
-        ammoTextUI = GameObject.Find("AmmoCount");
-        ammoText = ammoTextUI.GetComponent<Text>();
+        //ammoTextUI = GameObject.Find("AmmoCount");
+        //ammoText = ammoTextUI.GetComponent<Text>();
         canFire = true;
         projectile = weaponData.projectile;
         fireRate = weaponData.fireRate;
@@ -40,6 +38,8 @@ public class WeaponBehaviour : MonoBehaviour
 			pool.AddComponent<ObjectPool>();
 			pool.GetComponent<ObjectPool>().setUpPool(projectile.gameObject, defaultProjectilesToPool);
 		}
+        UIManager.instance.reloadMeter.maxValue = reloadSpeed;
+        weaponCamera = GetComponentInParent<Camera>();
         updateAmmoText();
 	}
 
@@ -65,7 +65,8 @@ public class WeaponBehaviour : MonoBehaviour
     private void updateAmmoText()
     {
         //update the ammo text area
-        ammoText.text = "Ammo Count:\n" + currentMagazine+"/"+magazineSize;
+        UIManager.instance.ammoText.text = "Ammo Count:\n" + currentMagazine + "/" + magazineSize; 
+        //ammoText.text = "Ammo Count:\n" + currentMagazine+"/"+magazineSize;
     }
 
     protected virtual void FixedUpdate()
@@ -75,15 +76,16 @@ public class WeaponBehaviour : MonoBehaviour
         //or single fire/burst
 
     }
-    public virtual void weaponAttack()
+    protected virtual void weaponAttack()
     {
 		//default code for projectile weapon
 		//we need to detect whether we have attacked something
 		//first create projectile - in this instance it travels so fast you can't tell its not hitscan
 		//NOTE: X -> side, Z-> in front in this example
 		GameObject firedProjectile = pool.GetComponent<ObjectPool>().spawnObject();
-		firedProjectile.transform.position = firePoint.transform.position;
-		firedProjectile.transform.rotation = firePoint.transform.rotation * Quaternion.Euler(0, -90, 0);
+        firedProjectile.transform.position = weaponCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, (transform.localPosition.z + 1f)));
+		firedProjectile.transform.rotation = weaponCamera.transform.rotation * Quaternion.Euler(1, -90, 1);
+        projectile.GetComponent<Rigidbody>().AddForce(GetComponentInParent<Rigidbody>().velocity);
 		firedProjectile.GetComponent<WeaponProjectile>().weaponStats(weaponData.damage, weaponData.projectileSpeed);
         currentMagazine -= 1;//take away a bullet
     }
@@ -99,10 +101,15 @@ public class WeaponBehaviour : MonoBehaviour
     {
         //play a reload animation
         //while animation is playing, reload;
-        Debug.Log("Reloading");
         canFire = false;
-        yield return new WaitForSeconds(reloadSpeed);
-        Debug.Log("Finished");
+        float reloadTimer = 0;
+        while (reloadTimer < reloadSpeed)
+        {
+            UIManager.instance.reloadMeter.value += Time.fixedDeltaTime;
+            reloadTimer += Time.fixedDeltaTime;
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
+        UIManager.instance.reloadMeter.value = 0;
         currentMagazine = magazineSize;
         canFire = true;
         updateAmmoText();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyWeaponBehaviour : WeaponBehaviour {
 
-	// Use this for initialization
+    protected Transform firePoint;
 	protected override void Start () {
         canFire = true;
         projectile = weaponData.projectile;
@@ -13,6 +13,7 @@ public class EnemyWeaponBehaviour : WeaponBehaviour {
         currentMagazine = magazineSize;
         reloadSpeed = weaponData.reloadSpeed;
         spread = weaponData.spread;
+        firePoint = GetComponentInChildren<Transform>();
 		if (!pool)
 		{
 			pool = new GameObject("Pool: " + projectile.name);
@@ -38,6 +39,15 @@ public class EnemyWeaponBehaviour : WeaponBehaviour {
                 StartCoroutine(reloadMagazine());
             }
         }
+    }
+    protected override void weaponAttack()
+    {
+        GameObject firedProjectile = pool.GetComponent<ObjectPool>().spawnObject();
+        firedProjectile.transform.position = firePoint.position;
+        firedProjectile.transform.rotation = firePoint.rotation * Quaternion.Euler(0, -90, 0);
+        projectile.GetComponent<Rigidbody>().velocity += GetComponentInParent<Rigidbody>().velocity;
+        firedProjectile.GetComponent<WeaponProjectile>().weaponStats(weaponData.damage, weaponData.projectileSpeed);
+        currentMagazine -= 1;//take away a bullet
     }
     protected override IEnumerator reloadMagazine()
     {

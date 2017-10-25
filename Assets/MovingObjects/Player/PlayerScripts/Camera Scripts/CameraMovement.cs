@@ -9,7 +9,7 @@ public class CameraMovement : MonoBehaviour
     private float xCameraMovement;
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         xCameraMovement += sens * Input.GetAxis("Mouse X");
         yCameraMovement -= sens* Input.GetAxis("Mouse Y");
@@ -21,6 +21,8 @@ public class CameraMovement : MonoBehaviour
 		{
 			yCameraMovement = -89;
 		}
-        transform.eulerAngles = new Vector3(Mathf.Clamp(yCameraMovement, -90, 90), xCameraMovement, 0);
+        transform.eulerAngles = new Vector3(
+            Mathf.Clamp(yCameraMovement, -90, 90), 
+                xCameraMovement, 0);
     }
 }

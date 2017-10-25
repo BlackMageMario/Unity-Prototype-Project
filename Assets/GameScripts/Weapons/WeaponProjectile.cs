@@ -13,10 +13,11 @@ public class WeaponProjectile : MonoBehaviour {
 	}
 	protected virtual void OnDisable()
 	{
-		//resets position etc.
-		//needs to be done in on disable - ensure that every
-		//projectile has this
-		body.velocity = new Vector3(0, 0, 0);
+        //resets position etc.
+        //needs to be done in on disable - ensure that every
+        //projectile has this
+        body = GetComponent<Rigidbody>();//get body again
+        body.velocity = new Vector3(0, 0, 0);
 		body.angularVelocity = new Vector3(0, 0, 0);
 		body.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 	}
@@ -50,9 +51,11 @@ public class WeaponProjectile : MonoBehaviour {
             //as long as the object isn't another projectile it can't
             //destroy it
             //
+            Debug.Log(other.name);
             HealthManager healthObject = other.GetComponent<HealthManager>();
             if (healthObject)//i think this chekcs if hte object exists. I'm surprised it works
             {
+                Debug.Log("Health Object: " + healthObject);
                 healthObject.takeDamage(damage);
             }
 			GetComponent<PooledObject>().pool.ReturnObject(this.gameObject);
