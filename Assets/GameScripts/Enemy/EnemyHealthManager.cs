@@ -12,8 +12,21 @@ public class EnemyHealthManager : HealthManager {
         currentHealth = HealthStats.reduceHealth(currentHealth, damage);
         if(currentHealth <= 0)
         {
-            //guess i'll die
-            Destroy(this.gameObject);
+			//guess i'll die
+			EnemyManagerInfo info = GetComponent<EnemyManagerInfo>();
+			if(info)
+			{
+				info.manager.enemyDied();
+			}
+			PooledObject objectPool = GetComponent<PooledObject>();
+			if(objectPool)
+			{
+				objectPool.pool.ReturnObject(this.gameObject);
+			}
+			else
+			{
+				Destroy(gameObject);
+			}
             //return to pool once we have that sorted
         }
         Debug.Log("Health: " + currentHealth);

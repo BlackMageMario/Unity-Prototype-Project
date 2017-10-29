@@ -233,7 +233,10 @@
     <Compile Include="Assets\GameScripts\Managers\GameStateManager.cs" />
     <Compile Include="Assets\GameScripts\Managers\ObjectPool.cs" />
     <Compile Include="Assets\GameScripts\Managers\UIManager.cs" />
-    <Compile Include="Assets\GameScripts\Managers\WaveManager.cs" />
+    <Compile Include="Assets\GameScripts\Managers\WaveManagers\WaveGroup.cs" />
+    <Compile Include="Assets\GameScripts\Managers\WaveManagers\WaveManager.cs" />
+    <Compile Include="Assets\GameScripts\Managers\WaveManagers\WaveObject.cs" />
+    <Compile Include="Assets\GameScripts\Managers\WaveManagers\WaveSpawner.cs" />
     <Compile Include="Assets\GameScripts\Weapons\WeaponBehaviour.cs" />
     <Compile Include="Assets\GameScripts\Weapons\WeaponData.cs" />
     <Compile Include="Assets\GameScripts\Weapons\WeaponManager.cs" />

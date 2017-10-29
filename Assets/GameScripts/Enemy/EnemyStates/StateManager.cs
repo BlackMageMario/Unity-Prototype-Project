@@ -12,6 +12,7 @@ public class StateManager : MonoBehaviour {
     protected virtual void Start()
     {
         body = GetComponent<Rigidbody>();
+		target = GameObject.Find("PlayerPrototype");
     }
 
     // Update is called once per frame

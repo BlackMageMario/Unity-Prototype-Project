@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1130d0814f99e141a0f7855ff98e9ce, type: 3}
+  m_Name: Wave1
+  m_EditorClassIdentifier: 
+  groups:
+  - {fileID: 11400000, guid: 881c005862156c24f8bd6aaae766903f, type: 2}
+  - {fileID: 11400000, guid: 3d1ac3638ac0e1840a368f2d9d8ac379, type: 2}
+  timeBetweenEachGroup:
+  - 2
+  - 6
