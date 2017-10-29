@@ -13,7 +13,7 @@ public class WaveSpawner : MonoBehaviour {
 	}
 	public Vector3 randomSpawnPoint()
 	{
-		Random.InitState((int)Time.time);
+		Random.InitState((int)System.DateTime.Now.Ticks);
 		float angle = Random.value * 360;
 		Vector3 position = new Vector3(transform.position.x + rad * Mathf.Sin(angle * Mathf.Deg2Rad),
 			transform.position.y, transform.position.z * Mathf.Sin(angle * Mathf.Deg2Rad));

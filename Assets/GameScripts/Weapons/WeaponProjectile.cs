@@ -5,10 +5,11 @@ using UnityEngine;
 public class WeaponProjectile : MonoBehaviour {
     private int damage;//damage from weapon data from the weapon behaviour
     private float projectileSpeed;
-    private Rigidbody body;
+	private int disappearDistance = 2000;
+	private Rigidbody body;
 	protected virtual void Start () {
         body = GetComponent<Rigidbody>();
-		StartCoroutine(projectileReturn());
+		StartCoroutine(disappearBullet());
 		//Debug.Log("Position: " + transform.position);
 	}
 	protected virtual void OnDisable()
@@ -20,8 +21,12 @@ public class WeaponProjectile : MonoBehaviour {
         body.velocity = new Vector3(0, 0, 0);
 		body.angularVelocity = new Vector3(0, 0, 0);
 		body.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+		StopAllCoroutines();
 	}
-
+	protected virtual void OnEnable()
+	{
+		StartCoroutine(disappearBullet());
+	}
 	public virtual void weaponStats(int weaponDamage, float weaponProjectileSpeed)
     {
         //set up projectile stats
@@ -29,16 +34,9 @@ public class WeaponProjectile : MonoBehaviour {
         projectileSpeed = weaponProjectileSpeed;
 		///Debug.Log("Initial Position: " + transform.position);
 	}
-	protected virtual IEnumerator projectileReturn()
-	{
-		yield return new WaitForSeconds(3f);//after ten seconds destroy this item
-		GetComponent<PooledObject>().pool.ReturnObject(this.gameObject);
-	}
-	
 	// Update is called once per frame
-	void FixedUpdate ()
+	protected virtual void FixedUpdate ()
     {
-		
         body.AddForce(transform.right * projectileSpeed);
 	}
     //collision detection
@@ -59,7 +57,20 @@ public class WeaponProjectile : MonoBehaviour {
                 healthObject.takeDamage(damage);
             }
 			GetComponent<PooledObject>().pool.ReturnObject(this.gameObject);
-            //Destroy(this.gameObject);
         }
     }
+	protected virtual IEnumerator disappearBullet()
+	{
+		//the bullet has gone past a certain distance
+		//return it
+		Vector3 originalPosition = transform.position;//position at time this func is called
+		while(Vector3.Distance(originalPosition, transform.position) < disappearDistance)
+		{
+			Debug.Log("Active");
+			yield return new WaitForFixedUpdate();
+		}
+		//once while is done
+		Debug.Log("Reached here");
+		GetComponent<PooledObject>().pool.ReturnObject(this.gameObject);
+	}
 }

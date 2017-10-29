@@ -14,12 +14,7 @@ public class EnemyWeaponBehaviour : WeaponBehaviour {
         reloadSpeed = weaponData.reloadSpeed;
         spread = weaponData.spread;
         firePoint = GetComponentInChildren<Transform>();
-		if (!pool)
-		{
-			pool = new GameObject("Pool: " + projectile.name);
-			pool.AddComponent<ObjectPool>();
-			pool.GetComponent<ObjectPool>().setUpPool(projectile.gameObject, defaultProjectilesToPool);
-		}
+		pool = ObjectPool.getPool(projectile.gameObject, defaultProjectilesToPool);
 	}
 
     public override void fireGun()

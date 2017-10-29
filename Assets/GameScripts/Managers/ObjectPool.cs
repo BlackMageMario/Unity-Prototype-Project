@@ -3,34 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
 /// Based on SimpleObjectPool script from https://unity3d.com/learn/tutorials/topics/user-interface-ui/intro-and-setup?playlist=17111
-/// Just an object pool - much better than creating and destroying a ton of asteroids which can cause various issues
+/// Just an object pool - much better than creating and destroying a ton of objects
+/// which causes performance issues
 /// </summary>
 public class ObjectPool : MonoBehaviour
 {
 	public GameObject objectToPool;
-	public int defaultNumber;
 	private Stack<GameObject> inactiveObjects = new Stack<GameObject>();
-	// Use this for initialization
-	/*void Start()
+	public static GameObject getPool(GameObject prefab, int numToSpawn)
 	{
-		for (int i = 0; i < defaultNumber; i++)
+		//Debug.Log("Num to spawn: " + numToSpawn);
+		GameObject associatedPool = GameObject.Find("Pool: " + prefab.name);
+		if (associatedPool)
 		{
-			GameObject spawnedObject = (GameObject)GameObject.Instantiate(objectToPool);
-			spawnedObject.transform.SetParent(this.gameObject.transform);
-			spawnedObject.SetActive(false);
-			PooledObject pooledObject = spawnedObject.AddComponent<PooledObject>();
-			pooledObject.pool = this;
-			inactiveObjects.Push(spawnedObject);
-			//not finding parent
-
+			return associatedPool;
 		}
-	}*/
+		else
+		{
+			associatedPool = new GameObject("Pool: " + prefab.name);
+			associatedPool.AddComponent<ObjectPool>();
+			associatedPool.GetComponent<ObjectPool>().setUpPool(prefab.gameObject, numToSpawn);
+			return associatedPool;
+		}
+	}
 	public void setUpPool(GameObject objectToPool, int defaultNumber)
 	{
 		this.objectToPool = objectToPool;
-		this.defaultNumber = defaultNumber;
+		//this.defaultNumber = defaultNumber;
+		
 		for (int i = 0; i < defaultNumber; i++)
 		{
+			//Debug.Log("i: " + i);
 			GameObject spawnedObject = (GameObject)GameObject.Instantiate(objectToPool);
 			spawnedObject.transform.SetParent(this.gameObject.transform);
 			spawnedObject.SetActive(false);
@@ -38,7 +41,6 @@ public class ObjectPool : MonoBehaviour
 			pooledObject.pool = this;
 			inactiveObjects.Push(spawnedObject);
 			//not finding parent
-
 		}
 	}
 	public GameObject spawnObject()

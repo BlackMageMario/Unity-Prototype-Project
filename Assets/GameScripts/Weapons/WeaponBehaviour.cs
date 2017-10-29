@@ -12,19 +12,15 @@ public class WeaponBehaviour : MonoBehaviour
     //or an actual projectile
     //projectiles will override our fireBullet method
     //private int damage;//the damage of the bullet - we pass this onto any weapon taht's a projectile
-    
     protected float fireRate;
     protected int magazineSize;//size of the magazine
     protected int currentMagazine;//size of our magazine right now
     protected float reloadSpeed;//reload speed of the gun
     protected float spread;//spread of the gun - spread of 0 would be perfect shot every time
-						   // Use this for initialization
 	protected GameObject pool;
 	protected bool canFire;
     private Camera weaponCamera;
     protected virtual void Start () {
-        //ammoTextUI = GameObject.Find("AmmoCount");
-        //ammoText = ammoTextUI.GetComponent<Text>();
         canFire = true;
         projectile = weaponData.projectile;
         fireRate = weaponData.fireRate;
@@ -32,12 +28,7 @@ public class WeaponBehaviour : MonoBehaviour
         currentMagazine = magazineSize;
         reloadSpeed = weaponData.reloadSpeed;
         spread = weaponData.spread;
-		if(!pool)
-		{
-			pool = new GameObject("Pool: " + projectile.name);
-			pool.AddComponent<ObjectPool>();
-			pool.GetComponent<ObjectPool>().setUpPool(projectile.gameObject, defaultProjectilesToPool);
-		}
+		pool = ObjectPool.getPool(projectile.gameObject, defaultProjectilesToPool);
         UIManager.instance.reloadMeter.maxValue = reloadSpeed;
         weaponCamera = GetComponentInParent<Camera>();
         updateAmmoText();

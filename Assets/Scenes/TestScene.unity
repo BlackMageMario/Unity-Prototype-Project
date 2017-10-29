@@ -433,7 +433,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 281364208}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -960, y: -540.23285, z: 0}
+  m_LocalPosition: {x: -959.99994, y: -539.8176, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1501765969}
@@ -624,8 +624,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 471571697}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 386.5, y: 217.5, z: 0}
-  m_LocalScale: {x: 0.40260416, y: 0.40260416, z: 0.40260416}
+  m_LocalPosition: {x: 493.5, y: 277.5, z: 0}
+  m_LocalScale: {x: 0.5140625, y: 0.5140625, z: 0.5140625}
   m_Children:
   - {fileID: 10912117}
   - {fileID: 605718047}
@@ -780,7 +780,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 605718046}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 960, y: -540.23285, z: 0}
+  m_LocalPosition: {x: 959.99994, y: -539.8176, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 681260962}
@@ -1405,9 +1405,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d40c7bb3014929469fa042c63cb02ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardSpeed: 30
-  backwardSpeed: 25
-  sidewaySpeed: 20
+  forwardSpeed: 38
+  backwardSpeed: 30
+  sidewaySpeed: 25
   jumpForce: 400
 --- !u!114 &1406141300
 MonoBehaviour:
@@ -1651,6 +1651,11 @@ Prefab:
     - target: {fileID: 4353805412969178, guid: 2727276abb88c9a41bedc4c362fe39af, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114485725157906594, guid: 2727276abb88c9a41bedc4c362fe39af,
+        type: 2}
+      propertyPath: defaultProjectilesToPool
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2727276abb88c9a41bedc4c362fe39af, type: 2}

@@ -42,7 +42,11 @@ public class WaveManager : MonoBehaviour {
 		{
 			Debug.Log("Can Spawn");
 			canSpawn = true;
+			//ensure that this can't be triggered again
+			Destroy(GetComponent<Collider>());
 		}
+		
+		
 	}
 	IEnumerator spawnWave()
 	{
@@ -54,11 +58,10 @@ public class WaveManager : MonoBehaviour {
 		{
 			waves[currentWave].spawnWave(this, spawnGroup);
 			
-			Debug.Log("spawnGroup: " + spawnGroup + " , groupsLength: " + waves[currentWave].groups.Length);
-			Debug.Log("Waves: " + waves[currentWave] + ", timeBetweenGroup: " + waves[currentWave].timeBetweenEachGroup[spawnGroup]);
+			//Debug.Log("spawnGroup: " + spawnGroup + " , groupsLength: " + waves[currentWave].groups.Length);
+			//Debug.Log("Waves: " + waves[currentWave] + ", timeBetweenGroup: " + waves[currentWave].timeBetweenEachGroup[spawnGroup]);
 			yield return new WaitForSeconds(waves[currentWave].timeBetweenEachGroup[spawnGroup]);
 			spawnGroup++;
-			//be at the end
 		}
 	}
 	
@@ -71,6 +74,18 @@ public class WaveManager : MonoBehaviour {
 			StartCoroutine(startNewWaveAfterDelay());
 			
 		}
+	}
+	private void startWaveText()
+	{
+		//start back from here
+	}
+	private void endWaveText()
+	{
+
+	}
+	private void updateWaveTrackText()
+	{
+
 	}
 	IEnumerator startNewWaveAfterDelay()
 	{

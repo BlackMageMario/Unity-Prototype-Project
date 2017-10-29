@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
 
     public static UIManager instance = null;
     public Text ammoText;
+	public Text waveAnnounceText;
+	public Text waveTrackText;
     public Slider reloadMeter;
     public Slider healthMeter;
     public Slider armourMeter;
