@@ -49,11 +49,11 @@ public class WeaponProjectile : MonoBehaviour {
             //as long as the object isn't another projectile it can't
             //destroy it
             //
-            Debug.Log(other.name);
+            //Debug.Log(other.name);
             HealthManager healthObject = other.GetComponent<HealthManager>();
             if (healthObject)//i think this chekcs if hte object exists. I'm surprised it works
             {
-                Debug.Log("Health Object: " + healthObject);
+                //Debug.Log("Health Object: " + healthObject);
                 healthObject.takeDamage(damage);
             }
 			GetComponent<PooledObject>().pool.ReturnObject(this.gameObject);
@@ -66,11 +66,11 @@ public class WeaponProjectile : MonoBehaviour {
 		Vector3 originalPosition = transform.position;//position at time this func is called
 		while(Vector3.Distance(originalPosition, transform.position) < disappearDistance)
 		{
-			Debug.Log("Active");
+			//Debug.Log("Active");
 			yield return new WaitForFixedUpdate();
 		}
 		//once while is done
-		Debug.Log("Reached here");
+		//Debug.Log("Reached here");
 		GetComponent<PooledObject>().pool.ReturnObject(this.gameObject);
 	}
 }

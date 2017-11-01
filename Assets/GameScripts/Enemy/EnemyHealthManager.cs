@@ -29,7 +29,7 @@ public class EnemyHealthManager : HealthManager {
 			}
             //return to pool once we have that sorted
         }
-        Debug.Log("Health: " + currentHealth);
+        //Debug.Log("Health: " + currentHealth);
         //base.takeDamage(damage);
     }
     public override void resetHealth()

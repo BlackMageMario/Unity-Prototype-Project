@@ -24,7 +24,7 @@ public class HealthManager : MonoBehaviour {
     {
         currentHealth = HealthStats.armourReduceHealth(currentHealth, currentArmour, damage);
         currentArmour = HealthStats.reduceArmour(currentArmour, damage);
-        if (currentHealth < 0)
+        if (currentHealth <= 0)
         {
 
             //body.Sleep();
@@ -33,7 +33,7 @@ public class HealthManager : MonoBehaviour {
             weaponManager.setCanAttack(false);
         }
         UIManager.instance.healthMeter.value = currentHealth;
-        Debug.Log("Health: " + currentHealth);
+        //Debug.Log("Health: " + currentHealth);
     }
 
     public virtual void increaseHealth(int heal)

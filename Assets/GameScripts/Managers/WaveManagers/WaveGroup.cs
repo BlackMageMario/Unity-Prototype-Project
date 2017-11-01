@@ -32,7 +32,7 @@ public class WaveGroup : ScriptableObject {
 		for(int i = 0; i < enemiesToSpawn.Length; i++)
 		{
 			pool = ObjectPool.getPool(enemiesToSpawn[i].gameObject, numToSpawn[i]);
-			Debug.Log("Pool in spawn enemies: " + pool);
+			//Debug.Log("Pool in spawn enemies: " + pool);
 			for (int j = 0; j < numToSpawn[i]; j++)
 			{
 				Random.InitState((int)Time.time);
@@ -73,7 +73,7 @@ public class WaveGroup : ScriptableObject {
 	private void spawnAnEnemy(WaveManager manager, GameObject pool)
 	{
 		
-		Debug.Log("The pool: " + pool);
+		//Debug.Log("The pool: " + pool);
 		GameObject enemyToSpawn = pool.GetComponent<ObjectPool>().spawnObject();
 		EnemyManagerInfo enemyManagerInfo = enemyToSpawn.AddComponent<EnemyManagerInfo>();
 		enemyManagerInfo.manager = manager;
