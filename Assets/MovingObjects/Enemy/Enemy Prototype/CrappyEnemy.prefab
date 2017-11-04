@@ -46,7 +46,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1995683176876932
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,7 +72,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1122882620626388}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.6000001, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.5, y: 10, z: 0.25}
   m_Children: []
   m_Father: {fileID: 4987483766267504}
@@ -99,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1995683176876932}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.72, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 0.2, y: 0.05, z: 2}
   m_Children:
   - {fileID: 4472771679615028}
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 11400000, guid: 1a9ab8a18c8fb684b8fd0faf5ed3974a, type: 2}
-  weapon: {fileID: 114816290601663462}
+  remainState: {fileID: 11400000, guid: 47cbcf3fd70cd6544911e4841d940cd9, type: 2}
   target: {fileID: 0}
   movementStats: {fileID: 11400000, guid: 8d3970eb63fe02a4c97c34fe21d1ba0c, type: 2}
   body: {fileID: 0}

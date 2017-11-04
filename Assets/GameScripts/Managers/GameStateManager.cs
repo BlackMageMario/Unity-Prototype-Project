@@ -15,8 +15,8 @@ public class GameStateManager : MonoBehaviour {
 	class StateTransition
 	{
 		readonly GameState CurrentState;
-		readonly Transition Transition;
-		public StateTransition(GameState currentState, Transition transition)
+		readonly TransitionEnum Transition;
+		public StateTransition(GameState currentState, TransitionEnum transition)
 		{
 			CurrentState = currentState;
 			Transition = transition;
@@ -54,17 +54,17 @@ public class GameStateManager : MonoBehaviour {
 		transitions = new Dictionary<StateTransition, GameState>
 		{
 			//format: new StateTraansition(startState, theTransition) and stateToTransitionTo
-			{new StateTransition(GameState.STARTMENU, Transition.BEGINGAME), GameState.GAMEALIVE },
-			{new StateTransition(GameState.GAMEALIVE, Transition.PAUSEGAME), GameState.GAMEPAUSE },
-			{new StateTransition(GameState.GAMEALIVE, Transition.GAMEDIE), GameState.DEAD },
-			{new StateTransition(GameState.GAMEPAUSE, Transition.UNPAUSEGAME), GameState.GAMEALIVE },
-			{new StateTransition(GameState.GAMEPAUSE, Transition.PAUSEEXIT), GameState.EXIT},
-			{new StateTransition(GameState.DEAD, Transition.DEADEXIT), GameState.EXIT},
-			{new StateTransition(GameState.DEAD, Transition.RESTARTLIFE), GameState.GAMEALIVE},
-			{new StateTransition(GameState.EXIT, Transition.EXITTOMENU), GameState.STARTMENU}
+			{new StateTransition(GameState.STARTMENU, TransitionEnum.BEGINGAME), GameState.GAMEALIVE },
+			{new StateTransition(GameState.GAMEALIVE, TransitionEnum.PAUSEGAME), GameState.GAMEPAUSE },
+			{new StateTransition(GameState.GAMEALIVE, TransitionEnum.GAMEDIE), GameState.DEAD },
+			{new StateTransition(GameState.GAMEPAUSE, TransitionEnum.UNPAUSEGAME), GameState.GAMEALIVE },
+			{new StateTransition(GameState.GAMEPAUSE, TransitionEnum.PAUSEEXIT), GameState.EXIT},
+			{new StateTransition(GameState.DEAD, TransitionEnum.DEADEXIT), GameState.EXIT},
+			{new StateTransition(GameState.DEAD, TransitionEnum.RESTARTLIFE), GameState.GAMEALIVE},
+			{new StateTransition(GameState.EXIT, TransitionEnum.EXITTOMENU), GameState.STARTMENU}
 		};
 	}
-	private GameState NextState(Transition transition)
+	private GameState NextState(TransitionEnum transition)
 	{
 		StateTransition attemptTransition = new StateTransition(currentState, transition);
 		GameState nextState;
@@ -81,7 +81,7 @@ public class GameStateManager : MonoBehaviour {
 			return nextState;
 		}
 	}
-	public GameState MoveNext(Transition transition)
+	public GameState MoveNext(TransitionEnum transition)
 	{
 		currentState = NextState(transition);
 		return currentState;
@@ -127,7 +127,7 @@ public enum GameState
 	EXIT
 };
 
-public enum Transition
+public enum TransitionEnum
 {
 	BEGINGAME,
 	PAUSEGAME,

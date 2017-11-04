@@ -21,14 +21,12 @@ public class EnemyWeaponBehaviour : WeaponBehaviour {
     {
         if (canFire)
         {
-            //we're going to use this as a hitscan weapon
-            //but it doesn't have to be like this
             if (currentMagazine > 0)
             {
                 weaponAttack();
                 StartCoroutine(canFireWeapon());
             }
-            else
+            if(currentMagazine <= 0)
             {
                 StopCoroutine(canFireWeapon());//stop this
                 StartCoroutine(reloadMagazine());

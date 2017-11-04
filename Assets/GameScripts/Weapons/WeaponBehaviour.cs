@@ -80,7 +80,10 @@ public class WeaponBehaviour : MonoBehaviour
 		firedProjectile.GetComponent<WeaponProjectile>().weaponStats(weaponData.damage, weaponData.projectileSpeed);
         currentMagazine -= 1;//take away a bullet
     }
-
+	public int getCurrentMagazine()
+	{
+		return currentMagazine;
+	}
     protected virtual IEnumerator canFireWeapon()
     {
         canFire = false;
