@@ -38,17 +38,12 @@ public class WeaponBehaviour : MonoBehaviour
     {
         if (canFire)
         {
-            //we're going to use this as a hitscan weapon
-            //but it doesn't have to be like this
-            if (currentMagazine > 0)
+            Debug.Log("Reached here. Ammo Count: " + currentMagazine);
+            
+            if (currentMagazine > 0)//this check *might* be unnecessary
             {
                 weaponAttack();
                 StartCoroutine(canFireWeapon());
-            }
-            else
-            {
-                StopCoroutine(canFireWeapon());//stop this
-                StartCoroutine(reloadMagazine());
             }
             updateAmmoText();
         }
@@ -87,7 +82,14 @@ public class WeaponBehaviour : MonoBehaviour
     protected virtual IEnumerator canFireWeapon()
     {
         canFire = false;
-        yield return new WaitForSeconds(1/fireRate);
+        if(currentMagazine > 0)
+        {
+            yield return new WaitForSeconds(1 / fireRate);   
+        }
+        else
+        {
+            yield return StartCoroutine(reloadMagazine());//wait for this routine to finish
+        }
         canFire = true;
     }
 
@@ -99,13 +101,12 @@ public class WeaponBehaviour : MonoBehaviour
         float reloadTimer = 0;
         while (reloadTimer < reloadSpeed)
         {
-            UIManager.instance.reloadMeter.value += Time.fixedDeltaTime;
-            reloadTimer += Time.fixedDeltaTime;
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
+            UIManager.instance.reloadMeter.value += Time.deltaTime;
+            reloadTimer += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
         }
         UIManager.instance.reloadMeter.value = 0;
-        currentMagazine = magazineSize;
-        canFire = true;
         updateAmmoText();
+        currentMagazine = magazineSize;
     }
 }

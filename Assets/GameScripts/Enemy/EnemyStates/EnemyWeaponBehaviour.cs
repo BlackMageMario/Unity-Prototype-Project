@@ -21,15 +21,10 @@ public class EnemyWeaponBehaviour : WeaponBehaviour {
     {
         if (canFire)
         {
-            if (currentMagazine > 0)
+            if (currentMagazine > 0)//this check *might* be unnecessary
             {
                 weaponAttack();
                 StartCoroutine(canFireWeapon());
-            }
-            if(currentMagazine <= 0)
-            {
-                StopCoroutine(canFireWeapon());//stop this
-                StartCoroutine(reloadMagazine());
             }
         }
     }
@@ -50,6 +45,5 @@ public class EnemyWeaponBehaviour : WeaponBehaviour {
         yield return new WaitForSeconds(reloadSpeed);
         Debug.Log("Finished");
         currentMagazine = magazineSize;
-        canFire = true;
     }
 }

@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be3d09c086bb3345b8ba2a2850d0067, type: 3}
   m_Name: MeleeCrappyEnemy
   m_EditorClassIdentifier: 
-  forwardSpeed: 40
+  forwardSpeed: 20
   backwardSpeed: 30
   sidewaySpeed: 10
   jumpForce: 10
-  engageDistance: 30
+  engageDistance: 3

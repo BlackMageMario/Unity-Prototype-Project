@@ -77,7 +77,7 @@ public class WaveGroup : ScriptableObject {
 		GameObject enemyToSpawn = pool.GetComponent<ObjectPool>().spawnObject();
 		EnemyManagerInfo enemyManagerInfo = enemyToSpawn.AddComponent<EnemyManagerInfo>();
 		enemyManagerInfo.manager = manager;
-		bool uniquePos = false;
+		bool uniquePos = true;
 		Vector3 randPos = new Vector3(0, 0, 0);
 		//TODO: find another way of doing this
 		//since technically spanwers should be responsible for spwaning

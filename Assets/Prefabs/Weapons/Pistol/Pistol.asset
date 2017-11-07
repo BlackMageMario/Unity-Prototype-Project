@@ -14,9 +14,9 @@ MonoBehaviour:
   projectile: {fileID: 114038233847221708, guid: 9c60dacd94dd47e42917850c17c24821,
     type: 2}
   damage: 20
-  magazineSize: 5
+  magazineSize: 10
   fireRate: 100
-  singleFire: 0
-  projectileSpeed: 200
+  singleFire: 1
+  projectileSpeed: 300
   reloadSpeed: 2
   spread: 0

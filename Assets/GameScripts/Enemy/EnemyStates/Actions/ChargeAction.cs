@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[CreateAssetMenu(menuName = "PluggableAI/Actions/ChargeAction")]
 public class ChargeAction : Action
 {
-	public float ChargeDuration;
+	//public float ChargeDuration;
 	public float chargeForceX;
 	//this is a more one off action
 	public override void Act(StateManager controller)
@@ -13,9 +13,7 @@ public class ChargeAction : Action
 	}
 	private void ChargeTarget(StateManager controller)
 	{
-		//perhaps attach a charge hitbox attack to the object?
-		//that could work
-		controller.GetComponent<Rigidbody>().AddForce(controller.transform.forward * chargeForceX);
+        controller.GetComponent<ChargeBehaviour>().DoChargeAttack();
 	}
 	/*private IEnumerator Charge(Vector3 chargePoint)
 	{

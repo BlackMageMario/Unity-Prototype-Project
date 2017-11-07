@@ -18,6 +18,8 @@ public class HealthManager : MonoBehaviour {
         weaponManager = GetComponent<WeaponManager>();
         UIManager.instance.healthMeter.maxValue = healthInfo.maxHealth;
         UIManager.instance.healthMeter.value = currentHealth;
+        UIManager.instance.armourMeter.maxValue = healthInfo.maxArmour;
+        UIManager.instance.armourMeter.value = currentArmour;
         enabled = true;
 	}
     public virtual void takeDamage(int damage)
@@ -33,22 +35,27 @@ public class HealthManager : MonoBehaviour {
             weaponManager.setCanAttack(false);
         }
         UIManager.instance.healthMeter.value = currentHealth;
+        UIManager.instance.armourMeter.value = currentArmour;
         //Debug.Log("Health: " + currentHealth);
     }
 
     public virtual void increaseHealth(int heal)
     {
         currentHealth = HealthStats.increaseHealth(currentHealth, healthInfo.maxHealth, heal);
+        UIManager.instance.healthMeter.value = currentHealth;
     }
     public virtual void increaseArmour(int armourHeal)
     {
        currentArmour = HealthStats.increaseArmour(currentArmour, healthInfo.maxArmour, armourHeal);
+       UIManager.instance.armourMeter.value = currentArmour;
     }
 
     public virtual void resetHealth()
     {
         currentHealth = healthInfo.spawnHealth;
         currentArmour = healthInfo.spawnArmour;
+        UIManager.instance.healthMeter.value = currentHealth;
+        UIManager.instance.armourMeter.value = currentArmour;
         playerMovement.setFreeze(false);
         weaponManager.setCanAttack(true);
         enabled = true;

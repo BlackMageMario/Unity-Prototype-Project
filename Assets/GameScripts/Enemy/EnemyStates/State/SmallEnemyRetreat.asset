@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Name: SmallEnemyRetreat
   m_EditorClassIdentifier: 
   actions: []
-  transitions: []
+  transitions:
+  - decision: {fileID: 11400000, guid: 94b528cfb8ba414498949fc7c2150531, type: 2}
+    trueState: {fileID: 11400000, guid: 47cbcf3fd70cd6544911e4841d940cd9, type: 2}
+    falseState: {fileID: 11400000, guid: 1a9ab8a18c8fb684b8fd0faf5ed3974a, type: 2}

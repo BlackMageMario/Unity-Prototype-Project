@@ -16,8 +16,6 @@ public class ChaseAction : Action
             Vector3 direction = (manager.target.transform.position - manager.transform.position).normalized;
             manager.transform.LookAt(manager.target.transform.position);
             manager.body.AddForce(direction * manager.movementStats.forwardSpeed);
-        }
-
-            
+        }    
     }
 }
