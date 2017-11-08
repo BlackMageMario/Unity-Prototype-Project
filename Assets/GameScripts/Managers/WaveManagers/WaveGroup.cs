@@ -77,27 +77,41 @@ public class WaveGroup : ScriptableObject {
 		GameObject enemyToSpawn = pool.GetComponent<ObjectPool>().spawnObject();
 		EnemyManagerInfo enemyManagerInfo = enemyToSpawn.AddComponent<EnemyManagerInfo>();
 		enemyManagerInfo.manager = manager;
-		bool uniquePos = true;
+		bool uniquePos = false;
 		Vector3 randPos = new Vector3(0, 0, 0);
-		//TODO: find another way of doing this
-		//since technically spanwers should be responsible for spwaning
-		//an enemy
-		while (!uniquePos)
+        //TODO: find another way of doing this
+        //since technically spanwers should be responsible for spwaning
+        //an enemy
+		while (!uniquePos)//loop through until we have an unique pos
 		{
 			int rand = Random.Range(0, manager.spawnPoints.Length);
 			randPos = manager.spawnPoints[rand].randomSpawnPoint();
 			//set twenty to something else i guess at some point
-			Collider[] hitColliders = Physics.OverlapSphere(randPos, 20);
-			for(int i =0; i < hitColliders.Length; i++)
-			{
-				if(!(hitColliders[i].gameObject.name == enemyToSpawn.name))
-				{
-					uniquePos = true;
-					//we did not detect any other enemy
-				}
-			}
+			Collider[] hitColliders = Physics.OverlapSphere(randPos, 2);
+            //check if there is anything in hit colliders
+            if (hitColliders.Length == 0)
+            {
+                uniquePos = true;
+            }
+            else//if there is, we need to check if we gen'd a unique position
+            {
+                
+                for (int i = 0; i < hitColliders.Length; i++)
+                {
+                   // Debug.Log("Position: " + hitColliders[i].gameObject.transform.position);
+                    if (!(hitColliders[i].gameObject.name == enemyToSpawn.name))
+                    {
+                        uniquePos = true;//unique pos is still true
+                        //we did not detect any other enemy
+                    }
+                    else
+                    {
+                        uniquePos = false;
+                        break;//break out of inner loop
+                    }
+                }
+            }
 		}
-		//Debug.Log("position: " + randPos);
 		enemyToSpawn.transform.position = randPos;
 			
 	}

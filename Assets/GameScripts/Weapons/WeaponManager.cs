@@ -55,7 +55,7 @@ public class WeaponManager : MonoBehaviour {
             }
         }
     }
-    public void addWeapon(WeaponBehaviour weapon)
+    public bool addWeapon(WeaponBehaviour weapon)
     {
         if(weaponsInInventory.Count < maxNumWeapon)
         {
@@ -71,8 +71,10 @@ public class WeaponManager : MonoBehaviour {
                 numberKeys.TryGetValue(numberKey, out keyWeWant);
                 Debug.Log("The key: " + keyWeWant);
                 weaponsInInventory.Add(keyWeWant, weapon);
+                return true;
             }
         }
+        return false;
     }
 
     public void changeWeapon(WeaponBehaviour weapon)
