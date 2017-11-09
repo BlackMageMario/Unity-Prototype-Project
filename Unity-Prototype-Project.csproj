@@ -219,6 +219,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GameScripts\Enemy\ChargeBehaviour.cs" />
     <Compile Include="Assets\GameScripts\Enemy\EnemyHealthManager.cs" />
     <Compile Include="Assets\GameScripts\Enemy\EnemyMovementManager.cs" />
     <Compile Include="Assets\GameScripts\Enemy\EnemyMovementStats.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Assets\GameScripts\Enemy\EnemyStates\Actions\RetreatAction.cs" />
     <Compile Include="Assets\GameScripts\Enemy\EnemyStates\Actions\ShootAction.cs" />
     <Compile Include="Assets\GameScripts\Enemy\EnemyStates\Decisions\ChargeDecision.cs" />
+    <Compile Include="Assets\GameScripts\Enemy\EnemyStates\Decisions\FinishChargeDecision.cs" />
     <Compile Include="Assets\GameScripts\Enemy\EnemyStates\Decisions\RetreatDecision.cs" />
     <Compile Include="Assets\GameScripts\Enemy\EnemyStates\EnemyWeaponBehaviour.cs" />
     <Compile Include="Assets\GameScripts\Enemy\EnemyStates\StateManager\Action.cs" />
@@ -244,6 +246,10 @@
     <Compile Include="Assets\GameScripts\Managers\WaveManagers\WaveManager.cs" />
     <Compile Include="Assets\GameScripts\Managers\WaveManagers\WaveObject.cs" />
     <Compile Include="Assets\GameScripts\Managers\WaveManagers\WaveSpawner.cs" />
+    <Compile Include="Assets\GameScripts\PickUp\ArmourPickUp.cs" />
+    <Compile Include="Assets\GameScripts\PickUp\HealthPickUp.cs" />
+    <Compile Include="Assets\GameScripts\PickUp\PickUp.cs" />
+    <Compile Include="Assets\GameScripts\PickUp\WeaponPickUp.cs" />
     <Compile Include="Assets\GameScripts\Weapons\MeleeWeapons\MeleeBehaviour.cs" />
     <Compile Include="Assets\GameScripts\Weapons\MeleeWeapons\MeleeData.cs" />
     <Compile Include="Assets\GameScripts\Weapons\WeaponBehaviour.cs" />

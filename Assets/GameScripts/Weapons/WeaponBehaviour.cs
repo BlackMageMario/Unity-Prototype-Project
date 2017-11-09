@@ -30,10 +30,26 @@ public class WeaponBehaviour : MonoBehaviour
         spread = weaponData.spread;
 		pool = ObjectPool.getPool(projectile.gameObject, defaultProjectilesToPool);
         UIManager.instance.reloadMeter.maxValue = reloadSpeed;
-        weaponCamera = GetComponentInParent<Camera>();
+        weaponCamera = GetComponentInParent<Camera>();//need to change this line
         updateAmmoText();
 	}
-
+	protected virtual void OnEnable()
+	{
+		weaponCamera = GetComponentInParent<Camera>();
+		UIManager.instance.reloadMeter.maxValue = reloadSpeed;
+		updateAmmoText();
+		if (currentMagazine <= 0)
+		{
+			StartCoroutine(reloadMagazine());
+			canFire = true;//reloading weapon isn't enoguh - that doesn't mean we can fire again so set this here to true
+		}
+		
+	}
+	protected virtual void OnDisable()
+	{
+		StopAllCoroutines();//stop them all otherwise things go to shit
+		UIManager.instance.reloadMeter.value = 0;
+	}
     public virtual void fireGun()
     {
         if (canFire)
@@ -69,6 +85,7 @@ public class WeaponBehaviour : MonoBehaviour
 		//first create projectile - in this instance it travels so fast you can't tell its not hitscan
 		//NOTE: X -> side, Z-> in front in this example
 		GameObject firedProjectile = pool.GetComponent<ObjectPool>().spawnObject();
+		//Debug.Log(weaponCamera.gameObject);
         firedProjectile.transform.position = weaponCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, (transform.localPosition.z + 1f)));
 		firedProjectile.transform.rotation = weaponCamera.transform.rotation * Quaternion.Euler(1, -90, 1);
         projectile.GetComponent<Rigidbody>().AddForce(GetComponentInParent<Rigidbody>().velocity);
@@ -106,7 +123,7 @@ public class WeaponBehaviour : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
         UIManager.instance.reloadMeter.value = 0;
-        updateAmmoText();
         currentMagazine = magazineSize;
-    }
+		updateAmmoText();
+	}
 }

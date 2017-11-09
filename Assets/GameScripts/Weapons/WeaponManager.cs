@@ -13,11 +13,7 @@ public class WeaponManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         weaponsInInventory = new Dictionary<KeyCode, WeaponBehaviour>(maxNumWeapon);
-        if (startingWeapon)
-        {
-            addWeapon(startingWeapon);
-            currentWeapon = startingWeapon;
-        }
+        
         //this is bad but not as bad as the old implementation
         numberKeys = new Dictionary<int, KeyCode>();
         numberKeys.Add(0, KeyCode.Alpha0);
@@ -31,7 +27,12 @@ public class WeaponManager : MonoBehaviour {
         numberKeys.Add(8, KeyCode.Alpha8);
         numberKeys.Add(9, KeyCode.Alpha9);
         weaponCamera = GetComponentInChildren<Camera>();
-        canAttack = true;
+		if (startingWeapon)
+		{
+			addWeapon(startingWeapon);
+			currentWeapon = startingWeapon;
+		}
+		canAttack = true;
     }
 
     void Update()//this could be update too?? - changed to update
@@ -53,12 +54,35 @@ public class WeaponManager : MonoBehaviour {
                     currentWeapon.fireGun();
                 }
             }
-        }
+		}
+		List<KeyCode> keyList = new List<KeyCode>(weaponsInInventory.Keys);
+		for (int i = 0; i < keyList.Count; i++)
+		{
+			if(Input.GetKey(keyList[i]))//if we press that button
+			{
+				Debug.Log("Attempting to switch to that weapon");
+				WeaponBehaviour newWeapon;
+				weaponsInInventory.TryGetValue(keyList[i], out newWeapon);
+				if (currentWeapon != newWeapon)
+				{
+					Debug.Log("reached here");
+					currentWeapon.gameObject.SetActive(false);
+					currentWeapon = newWeapon;
+					Debug.Log(newWeapon.gameObject);
+					newWeapon.gameObject.SetActive(true);
+					
+				}
+			}
+		}
     }
     public bool addWeapon(WeaponBehaviour weapon)
     {
+		Debug.Log("Got here.");
+		Debug.Log(weaponsInInventory.Count);
+		Debug.Log(maxNumWeapon);
         if(weaponsInInventory.Count < maxNumWeapon)
         {
+			//Debug.Log("Got here");
             //we can add a weapon
             //now check if weapon isn't already in inventory
             if(!weaponsInInventory.ContainsValue(weapon))
@@ -71,6 +95,13 @@ public class WeaponManager : MonoBehaviour {
                 numberKeys.TryGetValue(numberKey, out keyWeWant);
                 Debug.Log("The key: " + keyWeWant);
                 weaponsInInventory.Add(keyWeWant, weapon);
+				Debug.Log("Weapons in Inventory count: " + weaponsInInventory.Count);
+				weapon.transform.SetParent(weaponCamera.transform);
+				Debug.Log(weapon.gameObject);
+				if(currentWeapon != null && currentWeapon.gameObject.activeSelf)
+				{
+					weapon.gameObject.SetActive(false);
+				}
                 return true;
             }
         }
