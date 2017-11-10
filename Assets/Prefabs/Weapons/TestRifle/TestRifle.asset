@@ -15,8 +15,8 @@ MonoBehaviour:
     type: 2}
   damage: 20
   magazineSize: 30
-  fireRate: 300
+  fireRate: 150
   singleFire: 0
-  projectileSpeed: 20
-  reloadSpeed: 1
+  projectileSpeed: 400
+  reloadSpeed: 3
   spread: 20

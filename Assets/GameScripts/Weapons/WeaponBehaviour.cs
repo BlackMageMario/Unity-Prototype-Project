@@ -85,11 +85,14 @@ public class WeaponBehaviour : MonoBehaviour
 		//first create projectile - in this instance it travels so fast you can't tell its not hitscan
 		//NOTE: X -> side, Z-> in front in this example
 		GameObject firedProjectile = pool.GetComponent<ObjectPool>().spawnObject();
-		//Debug.Log(weaponCamera.gameObject);
-        firedProjectile.transform.position = weaponCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, (transform.localPosition.z + 1f)));
+        //Debug.Log(weaponCamera.gameObject);
+        Debug.Log("Weapon shot position: " + weaponCamera.transform.position.z + .3f);
+        firedProjectile.transform.position = weaponCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, (weaponCamera.transform.localPosition.z)));
 		firedProjectile.transform.rotation = weaponCamera.transform.rotation * Quaternion.Euler(1, -90, 1);
+        Physics.IgnoreCollision(firedProjectile.GetComponent<Collider>(), GetComponentInParent<Collider>());
         projectile.GetComponent<Rigidbody>().AddForce(GetComponentInParent<Rigidbody>().velocity);
 		firedProjectile.GetComponent<WeaponProjectile>().weaponStats(weaponData.damage, weaponData.projectileSpeed);
+
         currentMagazine -= 1;//take away a bullet
     }
 	public int getCurrentMagazine()

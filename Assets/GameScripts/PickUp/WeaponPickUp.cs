@@ -17,7 +17,11 @@ public class WeaponPickUp : PickUp
 		else
 		{
 			Destroy(GetComponent<Rigidbody>());//refactor
-			Destroy(GetComponent<SphereCollider>());//refactor
+            Collider[] colliders = GetComponents<Collider>();
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                Destroy(colliders[i]);
+            }
 			Destroy(this);
 		}
     }

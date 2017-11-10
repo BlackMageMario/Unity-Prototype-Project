@@ -33,6 +33,7 @@ public class EnemyWeaponBehaviour : WeaponBehaviour {
         GameObject firedProjectile = pool.GetComponent<ObjectPool>().spawnObject();
         firedProjectile.transform.position = firePoint.position;
         firedProjectile.transform.rotation = transform.rotation * Quaternion.Euler(0, -90, 0);
+        Physics.IgnoreCollision(firedProjectile.GetComponent<Collider>(), GetComponentInParent<Collider>());
         projectile.GetComponent<Rigidbody>().velocity += GetComponentInParent<Rigidbody>().velocity;
         firedProjectile.GetComponent<WeaponProjectile>().weaponStats(weaponData.damage, weaponData.projectileSpeed);
         currentMagazine -= 1;//take away a bullet

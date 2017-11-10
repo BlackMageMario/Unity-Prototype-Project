@@ -97,7 +97,8 @@ public class WeaponManager : MonoBehaviour {
                 weaponsInInventory.Add(keyWeWant, weapon);
 				Debug.Log("Weapons in Inventory count: " + weaponsInInventory.Count);
 				weapon.transform.SetParent(weaponCamera.transform);
-				Debug.Log(weapon.gameObject);
+                //Debug.Log(weapon.gameObject);
+                weapon.gameObject.transform.localPosition = new Vector3(.12f, -.39f, 0);
 				if(currentWeapon != null && currentWeapon.gameObject.activeSelf)
 				{
 					weapon.gameObject.SetActive(false);

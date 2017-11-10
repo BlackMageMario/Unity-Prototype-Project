@@ -252,6 +252,7 @@
     <Compile Include="Assets\GameScripts\PickUp\WeaponPickUp.cs" />
     <Compile Include="Assets\GameScripts\Weapons\MeleeWeapons\MeleeBehaviour.cs" />
     <Compile Include="Assets\GameScripts\Weapons\MeleeWeapons\MeleeData.cs" />
+    <Compile Include="Assets\GameScripts\Weapons\Projectiles\EnemyProjectile.cs" />
     <Compile Include="Assets\GameScripts\Weapons\WeaponBehaviour.cs" />
     <Compile Include="Assets\GameScripts\Weapons\WeaponData.cs" />
     <Compile Include="Assets\GameScripts\Weapons\WeaponManager.cs" />

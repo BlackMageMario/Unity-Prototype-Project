@@ -2,66 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
+/// Singleton pattern found from: https://unity3d.com/learn/tutorials/projects/2d-roguelike-tutorial/writing-game-manager
 /// Example C# code used to design state machine: https://stackoverflow.com/questions/5923767/simple-state-machine-example-in-c
 /// </summary>
 public class GameStateManager : MonoBehaviour {
 
 	// Use this for initialization
-	//how do we want to build this?
-	//four states:
-	// 1. Menu 2. Alive, Playing 3. Pause 4. Dead, Restart
-	// go from menu-> Alive -> Pause, Alive->Dead, Dead-> Alive
-	
-	class StateTransition
-	{
-		readonly GameState CurrentState;
-		readonly TransitionEnum Transition;
-		public StateTransition(GameState currentState, TransitionEnum transition)
-		{
-			CurrentState = currentState;
-			Transition = transition;
-		}
-		public override int GetHashCode()
-		{
-			return 17 + 31 * CurrentState.GetHashCode() + 31 * Transition.GetHashCode();//review hash codes to understand what's going on here
-		}
-		public override bool Equals(object obj)
-		{
-			StateTransition other = obj as StateTransition;
-			return other != null && this.CurrentState == other.CurrentState
-				&& this.Transition == other.Transition;
-		}
-	}
 	Dictionary<StateTransition, GameState> transitions;
 	public static GameStateManager instance = null;
 	private GameState currentState;
-	private GameState initialState = GameState.GAMEALIVE;
+	private GameState initialState = GameState.STARTMENU;
 	void Awake()
 	{
 		if (!instance)//if this doesn't exist
 		{
-			instance = this;//this is our singleton
+            DontDestroyOnLoad(this.gameObject);
+            instance = this;//this is our singleton
 		}
 		else
 		{
 			Destroy(this.gameObject);//destroy; extra singleton created
 		}
-		currentState = initialState;
+        createTransitions();
 	}
 	private void createTransitions()
 	{
 		currentState = initialState;
 		transitions = new Dictionary<StateTransition, GameState>
-		{
+        {
 			//format: new StateTraansition(startState, theTransition) and stateToTransitionTo
 			{new StateTransition(GameState.STARTMENU, TransitionEnum.BEGINGAME), GameState.GAMEALIVE },
+            {new StateTransition(GameState.STARTMENU,  TransitionEnum.GAMEMENUEXIT), GameState.EXIT },
 			{new StateTransition(GameState.GAMEALIVE, TransitionEnum.PAUSEGAME), GameState.GAMEPAUSE },
 			{new StateTransition(GameState.GAMEALIVE, TransitionEnum.GAMEDIE), GameState.DEAD },
 			{new StateTransition(GameState.GAMEPAUSE, TransitionEnum.UNPAUSEGAME), GameState.GAMEALIVE },
 			{new StateTransition(GameState.GAMEPAUSE, TransitionEnum.PAUSEEXIT), GameState.EXIT},
 			{new StateTransition(GameState.DEAD, TransitionEnum.DEADEXIT), GameState.EXIT},
-			{new StateTransition(GameState.DEAD, TransitionEnum.RESTARTLIFE), GameState.GAMEALIVE},
-			{new StateTransition(GameState.EXIT, TransitionEnum.EXITTOMENU), GameState.STARTMENU}
+			{new StateTransition(GameState.DEAD, TransitionEnum.RESTARTLIFE), GameState.GAMEALIVE}
 		};
 	}
 	private GameState NextState(TransitionEnum transition)
@@ -83,41 +60,115 @@ public class GameStateManager : MonoBehaviour {
 	}
 	public GameState MoveNext(TransitionEnum transition)
 	{
-		currentState = NextState(transition);
-		return currentState;
-	}
+		return NextState(transition);
+    }
 	public GameState GetCurrentGameState()
 	{
 		return currentState;
 	}
-	/*
-	public void ChangeState(GameState state)
-	{
-		if(currentState == GameState.GAMEALIVE && (state == GameState.GAMEPAUSE || state == GameState.DEAD))
-		{
-			//we can change the state to that
-			currentState = state;
-		}
-		if(currentState == GameState.STARTMENU && (state == GameState.GAMEALIVE))
-		{
-			currentState = state;
-		}
-		if(currentState == GameState.GAMEPAUSE && (state == GameState.GAMEALIVE))
-		{
-			currentState = state;
-		}
-	}
-	*/
-	//void Start () {
-		
-	//}
-	
-	// Update is called once per frame
-	//void Update () {
-		
-	//}
-}
+    public void QuitGame()
+    {
+        //move to the quit state if we can
+        if(MoveNext(TransitionEnum.GAMEMENUEXIT) != currentState 
+            || MoveNext(TransitionEnum.PAUSEEXIT) != currentState 
+                || MoveNext(TransitionEnum.DEADEXIT) != currentState)//check if the tranisition is valid
+        {
+            //... then just quit
+            //like. the application is closing. you *could* like. check the state.
+            //... why would you want to :U
+            Application.Quit();
+        } 
+    }
+    public void PauseGame()
+    {
+        GameState potentialState = MoveNext(TransitionEnum.PAUSEGAME);
+        if (potentialState != currentState)
+        {
+            //can make the transition
+            currentState = potentialState;
+            UIManager.instance.GameRunningUI.gameObject.SetActive(false);
+            UIManager.instance.GamePauseUI.gameObject.SetActive(true);
+            //what do we do waith the pause state?
 
+            //well we get the pause menu and bring that up
+            //the real question is if we let all the other objects like. know to pause. or not.
+            //.... this is the trickest state by far
+        }
+    }
+    public void PlayerDead()
+    {
+        GameState potentialState = MoveNext(TransitionEnum.GAMEDIE);
+        if(potentialState != currentState)
+        {
+            currentState = potentialState;
+            UIManager.instance.GameRunningUI.gameObject.SetActive(false);
+            UIManager.instance.GameDeadUI.gameObject.SetActive(true);
+            //bring up the "you're dead" menu
+            //like pause, inform everything that the player is dead. Shut off the wave manager
+        }
+    }
+
+    public void UnPauseGame()
+    {
+        GameState potentialState = MoveNext(TransitionEnum.UNPAUSEGAME);
+        if(potentialState != currentState)
+        {
+            currentState = potentialState;//find a better way of doing this...
+            UIManager.instance.GamePauseUI.gameObject.SetActive(false);
+            UIManager.instance.GameRunningUI.gameObject.SetActive(true);
+            //my brian is probably having trouble with logic really
+            //do the opposite of the pause state, take down the pause menu and replace it
+            //with the main UI state
+        }
+    }
+
+    public void BeginGame()
+    {
+        GameState potentialState = MoveNext(TransitionEnum.BEGINGAME);
+        if(potentialState != currentState)
+        {
+            currentState = potentialState;
+            UIManager.instance.GameStartUI.gameObject.SetActive(false);
+            UIManager.instance.GameRunningUI.gameObject.SetActive(true);
+            //begin the game
+            //this might be a simple scene change... perhaps the main menu should be its own scene
+            //perhaps make the gamestatemanager a DontDestroyOnLoad() object
+        }
+    }
+
+    public void RestartLife()
+    {
+        GameState potentialState = MoveNext(TransitionEnum.RESTARTLIFE);
+        if(potentialState != currentState)
+        {
+            currentState = potentialState;
+            UIManager.instance.GameDeadUI.gameObject.SetActive(false);
+            UIManager.instance.GameRunningUI.gameObject.SetActive(true);
+            //restart the game
+            //call reset on *basically* everything
+        }
+    }
+}
+class StateTransition
+{
+    readonly GameState CurrentState;
+    readonly TransitionEnum Transition;
+    public StateTransition(GameState currentState, TransitionEnum transition)
+    {
+        CurrentState = currentState;
+        Transition = transition;
+    }
+    public override int GetHashCode()
+    {
+        return 17 + 31 * CurrentState.GetHashCode() + 31 * Transition.GetHashCode();//review hash codes to understand what's going on here
+    }
+    public override bool Equals(object obj)
+    {
+        StateTransition other = obj as StateTransition;
+        return other != null && this.CurrentState == other.CurrentState
+            && this.Transition == other.Transition;
+    }
+}
 public enum GameState
 {
 	STARTMENU,
@@ -136,5 +187,5 @@ public enum TransitionEnum
 	DEADEXIT,
 	UNPAUSEGAME,
 	RESTARTLIFE,
-	EXITTOMENU
+	GAMEMENUEXIT
 };

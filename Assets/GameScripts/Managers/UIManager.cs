@@ -9,7 +9,9 @@ using UnityEngine.UI;
 /// </summary>
 public class UIManager : MonoBehaviour
 {
-
+    //TODO: Massive refactor
+    //refactor this and break all the scripts that rely on it
+    //so that the code won't be horrifying by the end
     public static UIManager instance = null;
     public Text ammoText;
 	public Text waveAnnounceText;
@@ -17,8 +19,13 @@ public class UIManager : MonoBehaviour
     public Slider reloadMeter;
     public Slider healthMeter;
     public Slider armourMeter;
+    public Canvas GameStartUI;
+    public Canvas GameRunningUI;
+    public Canvas GamePauseUI;
+    public Canvas GameDeadUI;
     void Awake()
     {
+        DontDestroyOnLoad(this.gameObject);
         if (!instance)//if this doesn't exist
         {
             instance = this;//this is our singleton
