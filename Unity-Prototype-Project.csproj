@@ -252,6 +252,7 @@
     <Compile Include="Assets\GameScripts\PickUp\WeaponPickUp.cs" />
     <Compile Include="Assets\GameScripts\Weapons\MeleeWeapons\MeleeBehaviour.cs" />
     <Compile Include="Assets\GameScripts\Weapons\MeleeWeapons\MeleeData.cs" />
+    <Compile Include="Assets\GameScripts\Weapons\Projectiles\EnemyProjectile.cs" />
     <Compile Include="Assets\GameScripts\Weapons\WeaponBehaviour.cs" />
     <Compile Include="Assets\GameScripts\Weapons\WeaponData.cs" />
     <Compile Include="Assets\GameScripts\Weapons\WeaponManager.cs" />
@@ -260,6 +261,7 @@
     <Compile Include="Assets\MovingObjects\Player\PlayerScripts\PlayerInteraction.cs" />
     <Compile Include="Assets\MovingObjects\Player\PlayerScripts\PlayerMovement.cs" />
     <Compile Include="Assets\Prefabs\Projectiles\BasicRayCast.cs" />
+    <Compile Include="Assets\ToggleInstruction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

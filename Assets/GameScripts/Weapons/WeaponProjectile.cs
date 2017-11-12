@@ -37,7 +37,11 @@ public class WeaponProjectile : MonoBehaviour {
 	// Update is called once per frame
 	protected virtual void FixedUpdate ()
     {
-        body.AddForce(transform.right * projectileSpeed);
+		GameState state = GameStateManager.instance.GetCurrentGameState();
+		if (state != GameState.GAMEPAUSE && state != GameState.DEAD)
+		{
+			body.AddForce(transform.right * projectileSpeed);
+		}
 	}
     //collision detection
     //we'll use triggers for this

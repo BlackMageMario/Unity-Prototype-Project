@@ -30,9 +30,8 @@ public class HealthManager : MonoBehaviour {
         {
 
             //body.Sleep();
-            //guess i'll die (die)
-            playerMovement.setFreeze(true);
-            weaponManager.setCanAttack(false);
+            //guess i'll die (die
+			GameStateManager.instance.PlayerDead();
         }
         UIManager.instance.healthMeter.value = currentHealth;
         UIManager.instance.armourMeter.value = currentArmour;

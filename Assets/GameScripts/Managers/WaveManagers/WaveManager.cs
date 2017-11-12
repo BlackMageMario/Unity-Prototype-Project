@@ -17,26 +17,6 @@ public class WaveManager : MonoBehaviour {
 		currentWave = 0;
 		canSpawn = false;
 	}
-	/*void Update()
-	{
-		if(canSpawn)
-		{
-			if(!waveActive)
-			{
-				//if there is no wave active
-				//spawn one
-				if(currentWave < waves.Length)
-				{
-					StartCoroutine(spawnWave());
-				}
-				else
-				{
-					//we have won, execute an action i suppose
-					canSpawn = false;
-				}
-			}
-		}
-	}*/	
 	void OnTriggerEnter(Collider other)
 	{
 		if(other.name == "PlayerPrototype")
@@ -52,11 +32,20 @@ public class WaveManager : MonoBehaviour {
 		float currentTime = 0;
 		float countdownTime = currentWave == 0 ? timeBeforeFirstWave : timeBetweenWaves;
 		updateWaveTrackText();
+		GameState state;
 		while (currentTime < countdownTime)
 		{
-			startWaveText(countdownTime - currentTime);
-			yield return new WaitForSeconds(1f);
-			currentTime += 1f;
+			state = GameStateManager.instance.GetCurrentGameState();
+			if (state != GameState.DEAD)
+			{
+				startWaveText(countdownTime - currentTime);
+				yield return new WaitForSeconds(1f);
+				currentTime += 1f;
+			}
+			else
+			{
+				yield return new WaitForFixedUpdate();
+			}
 		}
 		StartCoroutine(waveStarted());
 		int spawnGroup = 0;
@@ -65,12 +54,18 @@ public class WaveManager : MonoBehaviour {
 		numEnemiesFromWave = waves[currentWave].numEnemieInWave();
 		while(spawnGroup < waves[currentWave].groups.Length)
 		{
-			waves[currentWave].spawnWave(this, spawnGroup);
-			
-			//Debug.Log("spawnGroup: " + spawnGroup + " , groupsLength: " + waves[currentWave].groups.Length);
-			//Debug.Log("Waves: " + waves[currentWave] + ", timeBetweenGroup: " + waves[currentWave].timeBetweenEachGroup[spawnGroup]);
-			yield return new WaitForSeconds(waves[currentWave].timeBetweenEachGroup[spawnGroup]);
-			spawnGroup++;
+			state = GameStateManager.instance.GetCurrentGameState();
+			if (state != GameState.DEAD)
+			{
+				waves[currentWave].spawnWave(this, spawnGroup);
+				yield return new WaitForSeconds(waves[currentWave].timeBetweenEachGroup[spawnGroup]);
+				spawnGroup++;
+			}
+			else
+			{
+				yield return new WaitForFixedUpdate();
+			}
+
 		}
 	}
 	public void enemyDied()
@@ -92,7 +87,22 @@ public class WaveManager : MonoBehaviour {
 	{
 		string waveStartedText = "Wave started!";
 		UIManager.instance.waveAnnounceText.text = waveStartedText;
-		yield return new WaitForSeconds(3f);
+		GameState state;
+		float currentTime = 0f;
+		while(currentTime < 3f)
+		{
+			state = GameStateManager.instance.GetCurrentGameState();
+			if (state != GameState.DEAD)
+			{
+				yield return new WaitForSeconds(.1f);
+				currentTime += .1f;
+			}
+			else
+			{
+				yield return new WaitForFixedUpdate();
+			}
+
+		}
 		UIManager.instance.waveAnnounceText.text = "";
 	}
 	private void updateWaveTrackText()
@@ -103,7 +113,22 @@ public class WaveManager : MonoBehaviour {
 	IEnumerator startNewWaveAfterDelay()
 	{
 		UIManager.instance.waveAnnounceText.text = "Wave ended!";
-		yield return new WaitForSeconds(timeBetweenWaves);
+		float currentTime = 0f;
+		GameState state;
+		while (currentTime < timeBetweenWaves)
+		{
+			state = GameStateManager.instance.GetCurrentGameState();
+			if (state != GameState.DEAD)
+			{
+				yield return new WaitForSeconds(.1f);
+				currentTime += .1f;
+			}
+			else
+			{
+				yield return new WaitForFixedUpdate();
+			}
+				
+		}
 		UIManager.instance.waveAnnounceText.text = "";
 		currentWave++;
 		if(currentWave <waves.Length)

@@ -19,7 +19,11 @@ public class StateManager : MonoBehaviour {
     // Update is called once per frame
     protected virtual void FixedUpdate()
     {
-        currentState.UpdateState(this);
+		GameState state = GameStateManager.instance.GetCurrentGameState();
+		if(state != GameState.DEAD)
+		{
+			currentState.UpdateState(this);
+		}
         //let's just go in a straight line for now
     }
     // Update is called once per frame

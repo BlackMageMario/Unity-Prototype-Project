@@ -36,7 +36,11 @@ public class WeaponBehaviour : MonoBehaviour
 	protected virtual void OnEnable()
 	{
 		weaponCamera = GetComponentInParent<Camera>();
-		UIManager.instance.reloadMeter.maxValue = reloadSpeed;
+		if(UIManager.instance)
+		{
+			UIManager.instance.reloadMeter.maxValue = reloadSpeed;
+		}
+		
 		updateAmmoText();
 		if (currentMagazine <= 0)
 		{
@@ -67,7 +71,11 @@ public class WeaponBehaviour : MonoBehaviour
     private void updateAmmoText()
     {
         //update the ammo text area
-        UIManager.instance.ammoText.text = "Ammo Count:\n" + currentMagazine + "/" + magazineSize; 
+		if(UIManager.instance)
+		{
+			UIManager.instance.ammoText.text = "Ammo Count:\n" + currentMagazine + "/" + magazineSize;
+		}
+        
         //ammoText.text = "Ammo Count:\n" + currentMagazine+"/"+magazineSize;
     }
 
@@ -125,7 +133,10 @@ public class WeaponBehaviour : MonoBehaviour
             reloadTimer += Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        UIManager.instance.reloadMeter.value = 0;
+		if (UIManager.instance)
+		{
+			UIManager.instance.reloadMeter.value = 0;
+		}
         currentMagazine = magazineSize;
 		updateAmmoText();
 	}

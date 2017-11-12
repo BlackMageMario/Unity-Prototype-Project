@@ -11,18 +11,22 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        xCameraMovement += sens * Input.GetAxis("Mouse X");
-        yCameraMovement -= sens* Input.GetAxis("Mouse Y");
-		if(yCameraMovement > 90)
+		GameState state = GameStateManager.instance.GetCurrentGameState();
+		if (state != GameState.DEAD && state != GameState.GAMEPAUSE)
 		{
-			yCameraMovement = 89;
+			xCameraMovement += sens * Input.GetAxis("Mouse X");
+			yCameraMovement -= sens * Input.GetAxis("Mouse Y");
+			if (yCameraMovement > 90)
+			{
+				yCameraMovement = 89;
+			}
+			if (yCameraMovement < -90)
+			{
+				yCameraMovement = -89;
+			}
+			transform.eulerAngles = new Vector3(
+				Mathf.Clamp(yCameraMovement, -90, 90),
+					xCameraMovement, 0);
 		}
-		if(yCameraMovement < -90)
-		{
-			yCameraMovement = -89;
-		}
-        transform.eulerAngles = new Vector3(
-            Mathf.Clamp(yCameraMovement, -90, 90), 
-                xCameraMovement, 0);
     }
 }

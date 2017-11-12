@@ -37,43 +37,49 @@ public class WeaponManager : MonoBehaviour {
 
     void Update()//this could be update too?? - changed to update
     {
-        if(canAttack)
-        {
-            if (currentWeapon.weaponData.singleFire)
-            {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    currentWeapon.fireGun();
-                }
-            }
-            else
-            {
-                //automatic fire
-                if (Input.GetKey(KeyCode.Mouse0))
-                {
-                    currentWeapon.fireGun();
-                }
-            }
-		}
-		List<KeyCode> keyList = new List<KeyCode>(weaponsInInventory.Keys);
-		for (int i = 0; i < keyList.Count; i++)
+
+		GameState state = GameStateManager.instance.GetCurrentGameState();
+		if (state != GameState.DEAD && state != GameState.GAMEPAUSE)
 		{
-			if(Input.GetKey(keyList[i]))//if we press that button
+			if (canAttack)
 			{
-				Debug.Log("Attempting to switch to that weapon");
-				WeaponBehaviour newWeapon;
-				weaponsInInventory.TryGetValue(keyList[i], out newWeapon);
-				if (currentWeapon != newWeapon)
+				if (currentWeapon.weaponData.singleFire)
 				{
-					Debug.Log("reached here");
-					currentWeapon.gameObject.SetActive(false);
-					currentWeapon = newWeapon;
-					Debug.Log(newWeapon.gameObject);
-					newWeapon.gameObject.SetActive(true);
-					
+					if (Input.GetKeyDown(KeyCode.Mouse0))
+					{
+						currentWeapon.fireGun();
+					}
+				}
+				else
+				{
+					//automatic fire
+					if (Input.GetKey(KeyCode.Mouse0))
+					{
+						currentWeapon.fireGun();
+					}
+				}
+			}
+			List<KeyCode> keyList = new List<KeyCode>(weaponsInInventory.Keys);
+			for (int i = 0; i < keyList.Count; i++)
+			{
+				if (Input.GetKey(keyList[i]))//if we press that button
+				{
+					Debug.Log("Attempting to switch to that weapon");
+					WeaponBehaviour newWeapon;
+					weaponsInInventory.TryGetValue(keyList[i], out newWeapon);
+					if (currentWeapon != newWeapon)
+					{
+						Debug.Log("reached here");
+						currentWeapon.gameObject.SetActive(false);
+						currentWeapon = newWeapon;
+						Debug.Log(newWeapon.gameObject);
+						newWeapon.gameObject.SetActive(true);
+
+					}
 				}
 			}
 		}
+		
     }
     public bool addWeapon(WeaponBehaviour weapon)
     {

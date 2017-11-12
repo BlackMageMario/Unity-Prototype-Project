@@ -35,8 +35,22 @@ public class UIManager : MonoBehaviour
             Destroy(this.gameObject);//destroy; extra singleton created
         }
     }
-
-    //public static Text message;//center message text
-    //maybe i should just create UI elements using prefabs instead when
-    //needed??
+	void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			GameState state = GameStateManager.instance.GetCurrentGameState();
+			if(state == GameState.GAMEALIVE)
+			{
+				GameStateManager.instance.PauseGame();
+			}
+			else if(state == GameState.GAMEPAUSE)
+			{
+				GameStateManager.instance.UnPauseGame();
+			}
+		}
+	}
+	//public static Text message;//center message text
+	//maybe i should just create UI elements using prefabs instead when
+	//needed??
 }

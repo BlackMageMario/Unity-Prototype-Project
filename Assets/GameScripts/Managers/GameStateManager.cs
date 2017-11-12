@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 /// <summary>
 /// Singleton pattern found from: https://unity3d.com/learn/tutorials/projects/2d-roguelike-tutorial/writing-game-manager
 /// Example C# code used to design state machine: https://stackoverflow.com/questions/5923767/simple-state-machine-example-in-c
@@ -12,6 +13,8 @@ public class GameStateManager : MonoBehaviour {
 	public static GameStateManager instance = null;
 	private GameState currentState;
 	private GameState initialState = GameState.STARTMENU;
+	private GameObject player;
+	private Camera ourCamera;
 	void Awake()
 	{
 		if (!instance)//if this doesn't exist
@@ -58,7 +61,7 @@ public class GameStateManager : MonoBehaviour {
 			return nextState;
 		}
 	}
-	public GameState MoveNext(TransitionEnum transition)
+	private GameState MoveNext(TransitionEnum transition)
 	{
 		return NextState(transition);
     }
@@ -68,15 +71,16 @@ public class GameStateManager : MonoBehaviour {
 	}
     public void QuitGame()
     {
-        //move to the quit state if we can
+		
         if(MoveNext(TransitionEnum.GAMEMENUEXIT) != currentState 
             || MoveNext(TransitionEnum.PAUSEEXIT) != currentState 
                 || MoveNext(TransitionEnum.DEADEXIT) != currentState)//check if the tranisition is valid
         {
-            //... then just quit
-            //like. the application is closing. you *could* like. check the state.
-            //... why would you want to :U
-            Application.Quit();
+			//... then just quit
+			//like. the application is closing. you *could* like. check the state.
+			//... why would you want to :U
+			//Debug.Log("Current state: " + currentState);
+			Application.Quit();
         } 
     }
     public void PauseGame()
@@ -88,6 +92,7 @@ public class GameStateManager : MonoBehaviour {
             currentState = potentialState;
             UIManager.instance.GameRunningUI.gameObject.SetActive(false);
             UIManager.instance.GamePauseUI.gameObject.SetActive(true);
+			Time.timeScale = 0;
             //what do we do waith the pause state?
 
             //well we get the pause menu and bring that up
@@ -103,12 +108,34 @@ public class GameStateManager : MonoBehaviour {
             currentState = potentialState;
             UIManager.instance.GameRunningUI.gameObject.SetActive(false);
             UIManager.instance.GameDeadUI.gameObject.SetActive(true);
+			player = GameObject.Find("PlayerPrototype");
+			ourCamera = GameObject.FindObjectOfType<Camera>();
+			//move the camera to some point
             //bring up the "you're dead" menu
             //like pause, inform everything that the player is dead. Shut off the wave manager
         }
     }
 
-    public void UnPauseGame()
+	public void RestartLife()
+	{
+		GameState potentialState = MoveNext(TransitionEnum.RESTARTLIFE);
+		if (potentialState != currentState)
+		{
+			currentState = potentialState;
+			UIManager.instance.GameDeadUI.gameObject.SetActive(false);
+			UIManager.instance.GameRunningUI.gameObject.SetActive(true);
+			if (player)
+			{
+				player.GetComponent<HealthManager>().resetHealth();
+				//reattach camera
+
+			}
+			//restart the game
+			//call reset on *basically* everything
+		}
+	}
+
+	public void UnPauseGame()
     {
         GameState potentialState = MoveNext(TransitionEnum.UNPAUSEGAME);
         if(potentialState != currentState)
@@ -116,6 +143,7 @@ public class GameStateManager : MonoBehaviour {
             currentState = potentialState;//find a better way of doing this...
             UIManager.instance.GamePauseUI.gameObject.SetActive(false);
             UIManager.instance.GameRunningUI.gameObject.SetActive(true);
+			Time.timeScale = 1;
             //my brian is probably having trouble with logic really
             //do the opposite of the pause state, take down the pause menu and replace it
             //with the main UI state
@@ -129,6 +157,7 @@ public class GameStateManager : MonoBehaviour {
         {
             currentState = potentialState;
             UIManager.instance.GameStartUI.gameObject.SetActive(false);
+			SceneManager.LoadScene("TestScene");
             UIManager.instance.GameRunningUI.gameObject.SetActive(true);
             //begin the game
             //this might be a simple scene change... perhaps the main menu should be its own scene
@@ -136,18 +165,7 @@ public class GameStateManager : MonoBehaviour {
         }
     }
 
-    public void RestartLife()
-    {
-        GameState potentialState = MoveNext(TransitionEnum.RESTARTLIFE);
-        if(potentialState != currentState)
-        {
-            currentState = potentialState;
-            UIManager.instance.GameDeadUI.gameObject.SetActive(false);
-            UIManager.instance.GameRunningUI.gameObject.SetActive(true);
-            //restart the game
-            //call reset on *basically* everything
-        }
-    }
+ 
 }
 class StateTransition
 {
@@ -187,5 +205,6 @@ public enum TransitionEnum
 	DEADEXIT,
 	UNPAUSEGAME,
 	RESTARTLIFE,
-	GAMEMENUEXIT
+	GAMEMENUEXIT,
+	PAUSEMENUEXIT
 };
