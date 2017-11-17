@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     public Text ammoText;
 	public Text waveAnnounceText;
 	public Text waveTrackText;
+    [SerializeField]private Text pickUpWeaponPopUp;
     public Slider reloadMeter;
     public Slider healthMeter;
     public Slider armourMeter;
@@ -50,6 +51,14 @@ public class UIManager : MonoBehaviour
 			}
 		}
 	}
+    public void generateWeaponPopUp(string weaponName)
+    {
+        pickUpWeaponPopUp.text = "Press E to pick up " + weaponName + ".";
+    }
+    public void clearWeaponPopUp()
+    {
+        pickUpWeaponPopUp.text = "";
+    }
 	//public static Text message;//center message text
 	//maybe i should just create UI elements using prefabs instead when
 	//needed??

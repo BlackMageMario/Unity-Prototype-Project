@@ -6,6 +6,13 @@ using UnityEngine;
 public class WeaponPickUp : PickUp
 {
     public WeaponBehaviour WeaponToGive;
+    protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "PlayerPrototype")
+        {
+            UIManager.instance.generateWeaponPopUp(gameObject.name);//maybe we should put the name of the weapon here somewhere
+        }
+    }
     protected override void executeAction(GameObject execute)
     {
         if(!(execute.GetComponent<WeaponManager>().addWeapon(WeaponToGive)))
@@ -22,7 +29,27 @@ public class WeaponPickUp : PickUp
             {
                 Destroy(colliders[i]);
             }
+            UIManager.instance.clearWeaponPopUp();
 			Destroy(this);
 		}
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.name == "PlayerPrototype")
+        {
+            UIManager.instance.clearWeaponPopUp();//just clear it
+        }
+
+    }
+    void OnTriggerStay(Collider other)
+    {
+        if (other.name == "PlayerPrototype")
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                executeAction(other.gameObject);
+            }
+
+        }
     }
 }

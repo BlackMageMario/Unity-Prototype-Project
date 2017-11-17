@@ -86,6 +86,16 @@ public class WeaponBehaviour : MonoBehaviour
         //or single fire/burst
 
     }
+    protected virtual void Update()
+    {
+        //for weapon looks
+        if (weaponCamera)
+        {
+            //if the weapon camera exists, we need to esnure that the angle between the camera and the weapon stays the same
+        }
+
+    }
+
     protected virtual void weaponAttack()
     {
 		//default code for projectile weapon

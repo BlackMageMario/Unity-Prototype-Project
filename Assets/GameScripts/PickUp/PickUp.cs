@@ -28,9 +28,9 @@ public abstract class PickUp : MonoBehaviour {
             }
             else
             {
-				//no pool - destroy
-				//set inactive
-				gameObject.SetActive(false);
+                //no pool - destroy
+                //set inactive
+                gameObject.SetActive(false);
             }
         }
     }
