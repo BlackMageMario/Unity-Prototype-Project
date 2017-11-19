@@ -27,6 +27,7 @@ public class RocketProjectileScript : WeaponProjectile {
 			HealthManager healthObject = other.GetComponent<HealthManager>();
 			if (healthObject)
 			{
+				Debug.Log("Damage takers: " + healthObject);
 				healthObject.takeDamage(damage);
 				healthObject.gameObject.GetComponent<Rigidbody>()
 					.AddExplosionForce(2000,
