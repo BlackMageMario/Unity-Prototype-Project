@@ -8,6 +8,8 @@ public class WaveManager : MonoBehaviour {
 	public WaveObject[] waves;
 	public float timeBeforeFirstWave;
 	public float timeBetweenWaves;
+	public MovingPlatformManager movePlatforms;
+	public PickUpSpawner itemSpawner;
 	private bool canSpawn;
 	private int currentWave;
 	private bool waveActive;
@@ -23,6 +25,7 @@ public class WaveManager : MonoBehaviour {
 		{
 			Debug.Log("Can Spawn");
 			StartCoroutine(spawnWave());
+			itemSpawner.startSpawning();
 			//canSpawn = true;
 			Destroy(GetComponent<Collider>());
 		}
@@ -113,6 +116,8 @@ public class WaveManager : MonoBehaviour {
 	IEnumerator startNewWaveAfterDelay()
 	{
 		UIManager.instance.waveAnnounceText.text = "Wave ended!";
+
+		movePlatforms.callGroups();
 		float currentTime = 0f;
 		GameState state;
 		while (currentTime < timeBetweenWaves)
@@ -138,6 +143,8 @@ public class WaveManager : MonoBehaviour {
 		else
 		{
 			//do something new
+			//probably open teh final gate
+			itemSpawner.stopSpawning();
 		}
 	}
 }

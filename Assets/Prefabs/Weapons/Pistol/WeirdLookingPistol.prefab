@@ -95,4 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: a534f27eb9a747b4994659a16c443645, type: 2}
+  soundForShot: {fileID: 8300000, guid: 6b44286381dcce743948c5e4be53a183, type: 3}
   defaultProjectilesToPool: 100
+  preferredPosition: {x: 0, y: 0, z: 0}
+  firePoint: {fileID: 0}

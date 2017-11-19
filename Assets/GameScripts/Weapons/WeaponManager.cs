@@ -64,12 +64,10 @@ public class WeaponManager : MonoBehaviour {
 			{
 				if (Input.GetKey(keyList[i]))//if we press that button
 				{
-					Debug.Log("Attempting to switch to that weapon");
 					WeaponBehaviour newWeapon;
 					weaponsInInventory.TryGetValue(keyList[i], out newWeapon);
 					if (currentWeapon != newWeapon)
 					{
-						Debug.Log("reached here");
 						currentWeapon.gameObject.SetActive(false);
 						currentWeapon = newWeapon;
 						Debug.Log(newWeapon.gameObject);
@@ -81,11 +79,12 @@ public class WeaponManager : MonoBehaviour {
 		}
 		
     }
+	
     public bool addWeapon(WeaponBehaviour weapon)
     {
-		Debug.Log("Got here.");
-		Debug.Log(weaponsInInventory.Count);
-		Debug.Log(maxNumWeapon);
+		//Debug.Log("Got here.");
+		//Debug.Log(weaponsInInventory.Count);
+		//Debug.Log(maxNumWeapon);
         if(weaponsInInventory.Count < maxNumWeapon)
         {
 			//Debug.Log("Got here");
@@ -103,8 +102,9 @@ public class WeaponManager : MonoBehaviour {
                 weaponsInInventory.Add(keyWeWant, weapon);
 				Debug.Log("Weapons in Inventory count: " + weaponsInInventory.Count);
 				weapon.transform.SetParent(weaponCamera.transform);
-                //Debug.Log(weapon.gameObject);
-                weapon.gameObject.transform.localPosition = new Vector3(.12f, -.39f, 0);
+				//Debug.Log(weapon.gameObject);
+				weapon.gameObject.transform.localPosition = weapon.preferredPosition;
+				weapon.gameObject.transform.rotation = new Quaternion(0, 0, 0, 0);
 				if(currentWeapon != null && currentWeapon.gameObject.activeSelf)
 				{
 					weapon.gameObject.SetActive(false);

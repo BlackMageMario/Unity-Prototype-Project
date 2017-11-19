@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// https://answers.unity.com/questions/1075436/weapon-rotating-in-a-weird-way.html for weapon rotation
+/// http://www2.it.nuigalway.ie/~sredfern/ct3111/07_Part7.pdf - sound notes
+/// </summary>
 public class WeaponBehaviour : MonoBehaviour
 {
     public WeaponData weaponData;//this weapon's data
+	public AudioClip soundForShot;
     //public GameObject firePoint;//need to find point rather than doing it this way
 	public int defaultProjectilesToPool;
+	public Vector3 preferredPosition;
+	public GameObject firePoint;
+	protected AudioSource source;
     protected WeaponProjectile projectile;// the projectile we fire - either just a bullet we show for visuals
     //or an actual projectile
     //projectiles will override our fireBullet method
@@ -19,9 +26,17 @@ public class WeaponBehaviour : MonoBehaviour
     protected float spread;//spread of the gun - spread of 0 would be perfect shot every time
 	protected GameObject pool;
 	protected bool canFire;
+	protected Quaternion originalRotation;
     private Camera weaponCamera;
     protected virtual void Start () {
-        canFire = true;
+		source = gameObject.AddComponent<AudioSource>();
+		source.maxDistance = 10f;
+		source.spatialBlend = 1f;
+		source.rolloffMode = AudioRolloffMode.Custom;
+		source.volume = 1f;
+		source.clip = soundForShot;
+		source.playOnAwake = false;
+		originalRotation = transform.rotation;
         projectile = weaponData.projectile;
         fireRate = weaponData.fireRate;
         magazineSize = weaponData.magazineSize;
@@ -29,9 +44,10 @@ public class WeaponBehaviour : MonoBehaviour
         reloadSpeed = weaponData.reloadSpeed;
         spread = weaponData.spread;
 		pool = ObjectPool.getPool(projectile.gameObject, defaultProjectilesToPool);
-        UIManager.instance.reloadMeter.maxValue = reloadSpeed;
-        weaponCamera = GetComponentInParent<Camera>();//need to change this line
-        updateAmmoText();
+        //UIManager.instance.reloadMeter.maxValue = reloadSpeed;
+		weaponCamera = GetComponentInParent<Camera>();//need to change this line
+		//updateAmmoText();
+		canFire = true;
 	}
 	protected virtual void OnEnable()
 	{
@@ -57,9 +73,7 @@ public class WeaponBehaviour : MonoBehaviour
     public virtual void fireGun()
     {
         if (canFire)
-        {
-            Debug.Log("Reached here. Ammo Count: " + currentMagazine);
-            
+        {   
             if (currentMagazine > 0)//this check *might* be unnecessary
             {
                 weaponAttack();
@@ -86,15 +100,6 @@ public class WeaponBehaviour : MonoBehaviour
         //or single fire/burst
 
     }
-    protected virtual void Update()
-    {
-        //for weapon looks
-        if (weaponCamera)
-        {
-            //if the weapon camera exists, we need to esnure that the angle between the camera and the weapon stays the same
-        }
-
-    }
 
     protected virtual void weaponAttack()
     {
@@ -103,14 +108,15 @@ public class WeaponBehaviour : MonoBehaviour
 		//first create projectile - in this instance it travels so fast you can't tell its not hitscan
 		//NOTE: X -> side, Z-> in front in this example
 		GameObject firedProjectile = pool.GetComponent<ObjectPool>().spawnObject();
-        //Debug.Log(weaponCamera.gameObject);
-        Debug.Log("Weapon shot position: " + weaponCamera.transform.position.z + .3f);
-        firedProjectile.transform.position = weaponCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, (weaponCamera.transform.localPosition.z)));
+		//Debug.Log(weaponCamera.gameObject);
+		firedProjectile.transform.position = firePoint.transform.position;
+		//firedProjectile.transform.position = weaponCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, (weaponCamera.transform.localPosition.z + 1f)));
 		firedProjectile.transform.rotation = weaponCamera.transform.rotation * Quaternion.Euler(1, -90, 1);
         Physics.IgnoreCollision(firedProjectile.GetComponent<Collider>(), GetComponentInParent<Collider>());
         projectile.GetComponent<Rigidbody>().AddForce(GetComponentInParent<Rigidbody>().velocity);
 		firedProjectile.GetComponent<WeaponProjectile>().weaponStats(weaponData.damage, weaponData.projectileSpeed);
-
+		
+		source.Play();
         currentMagazine -= 1;//take away a bullet
     }
 	public int getCurrentMagazine()

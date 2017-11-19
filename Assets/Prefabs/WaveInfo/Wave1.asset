@@ -14,6 +14,8 @@ MonoBehaviour:
   groups:
   - {fileID: 11400000, guid: 881c005862156c24f8bd6aaae766903f, type: 2}
   - {fileID: 11400000, guid: 3d1ac3638ac0e1840a368f2d9d8ac379, type: 2}
+  - {fileID: 11400000, guid: 2f60ad63606c2964cab1324f2a0f376f, type: 2}
   timeBetweenEachGroup:
   - 2
-  - 6
+  - 10
+  - 2

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponProjectile : MonoBehaviour {
-    private int damage;//damage from weapon data from the weapon behaviour
-    private float projectileSpeed;
+    protected int damage;//damage from weapon data from the weapon behaviour
+    protected float projectileSpeed;
 	private int disappearDistance = 2000;
 	private Rigidbody body;
 	protected virtual void Start () {
@@ -48,12 +48,12 @@ public class WeaponProjectile : MonoBehaviour {
     //right now we'll just make them disappear if they hit anything solid
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (!other.GetComponent<WeaponProjectile>())
+        if (!other.GetComponent<WeaponProjectile>() && other.tag != "Triggers")
         {
             //as long as the object isn't another projectile it can't
             //destroy it
             //
-            //Debug.Log(other.name);
+            Debug.Log(other.name);
             HealthManager healthObject = other.GetComponent<HealthManager>();
             if (healthObject)//i think this chekcs if hte object exists. I'm surprised it works
             {

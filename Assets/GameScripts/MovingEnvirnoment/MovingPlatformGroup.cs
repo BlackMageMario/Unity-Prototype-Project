@@ -14,11 +14,20 @@ public class MovingPlatformGroup : MonoBehaviour {
         //let's move them
         for(int i = 0; i < platforms.Length; i++)
         {
-            float yGoal = Random.Range(minY, maxY);
-            Debug.Log("Our goal: " + yGoal);
-            platforms[i].GetComponent<Rigidbody>().MovePosition(new Vector3(platforms[i].transform.position.x, yGoal, platforms[i].transform.position.z));
+			StartCoroutine(executionOfPlatforms(minY, maxY, platforms[i].GetComponent<Rigidbody>()));
         }
         //our platforms will need a rigidbody
     }
-
+	IEnumerator executionOfPlatforms(float minY, float maxY, Rigidbody toMove)
+	{
+		float yGoal = Random.Range(minY, maxY);
+		Vector3 targetPosition = new Vector3(toMove.position.x, yGoal, toMove.position.z);
+		
+		while(Vector3.Distance(targetPosition, toMove.position) >= 0.05)
+		{
+			Vector3 direction = (targetPosition - toMove.position).normalized;
+			toMove.MovePosition(toMove.position + direction * 2 * Time.fixedDeltaTime);
+			yield return new WaitForFixedUpdate();
+		}
+	}
 }

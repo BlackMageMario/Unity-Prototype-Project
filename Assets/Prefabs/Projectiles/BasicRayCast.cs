@@ -10,12 +10,12 @@ public class BasicRayCast : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	/*void FixedUpdate () {
 		
-	}
+	}*/
 	IEnumerator destroyBeam()
 	{
-		yield return new WaitForSeconds(0.2f);
+		yield return new WaitForSeconds(2f);
 		Destroy(this.gameObject);
 	}
 }

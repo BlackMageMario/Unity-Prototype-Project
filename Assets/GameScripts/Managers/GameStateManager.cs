@@ -52,7 +52,7 @@ public class GameStateManager : MonoBehaviour {
 		{
 			//can't get a valid value
 			//we could throw exception or what i would prefer: a warning
-			Debug.LogError("Invalid transition: " + currentState + " -> " + transition);
+ 
 			//keep state as current state
 			return currentState;
 		}

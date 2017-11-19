@@ -35,7 +35,6 @@ public class WaveGroup : ScriptableObject {
 			//Debug.Log("Pool in spawn enemies: " + pool);
 			for (int j = 0; j < numToSpawn[i]; j++)
 			{
-				Random.InitState((int)Time.time);
 				spawnAnEnemy(manager, pool);
 			}
 		}

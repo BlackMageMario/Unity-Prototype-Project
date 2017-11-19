@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: FirstGroup
   m_EditorClassIdentifier: 
   enemiesToSpawn:
-  - {fileID: 1493622007940040, guid: 32b5bb1535971f347a8455b7a0eb8f15, type: 2}
-  numToSpawn: 0a000000
+  - {fileID: 1514506027442372, guid: 32b5bb1535971f347a8455b7a0eb8f15, type: 2}
+  numToSpawn: 03000000
   oneByOne: 0
   oneByOneRate: 0

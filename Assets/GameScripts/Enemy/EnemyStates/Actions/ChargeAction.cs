@@ -15,14 +15,4 @@ public class ChargeAction : Action
 	{
         controller.GetComponent<ChargeBehaviour>().DoChargeAttack();
 	}
-	/*private IEnumerator Charge(Vector3 chargePoint)
-	{
-		float elapsedTime = 0;
-		while(elapsedTime < ChargeDuration)
-		{
-			yield return new WaitForFixedUpdate();
-			elapsedTime += Time.fixedDeltaTime;
-		}
-		
-	}*/
 }

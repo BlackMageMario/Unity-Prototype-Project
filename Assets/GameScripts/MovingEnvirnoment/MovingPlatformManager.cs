@@ -10,7 +10,8 @@ public class MovingPlatformManager : MonoBehaviour {
     //not for this game i suppose
 	// Use this for initialization
 	void Start () {
-        StartCoroutine(testFunction());	
+		//StartCoroutine(testFunction());	
+		callGroups(); // set them randomly at the start
 	}
 	
 	// Update is called once per frame
@@ -31,7 +32,5 @@ public class MovingPlatformManager : MonoBehaviour {
             callGroups();
             yield return new WaitForSeconds(2f);
         }
-
-        
     }
 }
