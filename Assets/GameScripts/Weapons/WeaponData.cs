@@ -1,18 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/// <summary>
+/// Simple weapon data class holding information on weapon stats
+/// could be potentially extended for more specialised weapons
+/// </summary>
 [CreateAssetMenu(fileName = "Weapon Details", menuName = "Weapons/Weapon Detail", order = 1)]
 public class WeaponData : ScriptableObject {
-    //we'll just attach this to the weapon prefab itself
-    
-    public WeaponProjectile projectile;
+    public WeaponProjectile projectile;//projectile associated with weapon
     public int damage;
     public int magazineSize;
     public float fireRate;
-    public bool singleFire;//maybe use an enum with the different firing types
+    public bool singleFire;//could replace with an enum of different firing types
+    //e.g. burst fire etc.
     public float projectileSpeed;
     public float reloadSpeed;
-    public float spread;
-    //perhaps something for spread?
-    //this can be extended to different weapons
+    public float spread;//not implemented on any weapon but could be used
 }

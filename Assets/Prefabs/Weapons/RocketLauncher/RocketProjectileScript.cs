@@ -30,14 +30,13 @@ public class RocketProjectileScript : WeaponProjectile {
 				Debug.Log("Damage takers: " + healthObject);
 				healthObject.takeDamage(damage);
 				healthObject.gameObject.GetComponent<Rigidbody>()
-					.AddExplosionForce(2000,
-						transform.position + healthObject.transform.position, 40);
+					.AddExplosionForce(2000, transform.position, 40, 300);
 			}
 			
 		}
 		IEnumerator removeExpolsion()
 		{
-			yield return new WaitForSeconds(2f);
+			yield return new WaitForSeconds(3f);
 			Destroy(this.gameObject);
 		}
 	}

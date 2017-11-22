@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(menuName = "PluggableAI/Actions/Retreat")]
+///
+/// Retreat action - unfortunately, this was not implemented in the end
+/// but this action if implemented would attempt to run away from the target
+/// by finding a reachable location as far as possible from the target
+///
 public class RetreatAction : Action {
 	public override void Act(StateManager manager)
 	{
@@ -9,8 +14,6 @@ public class RetreatAction : Action {
 	}
 	private void Retreat(StateManager manager)
 	{
-		//we need to retreat until we can't see the target
-		//so our enemy needs to be able to see where the nearest wall is and run towards that
-		//we need pathing which is kind of a pain in the ass to create... i might do this later then
+		//unimplemented
 	}
 }

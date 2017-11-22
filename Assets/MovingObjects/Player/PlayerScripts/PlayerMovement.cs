@@ -58,13 +58,11 @@ public class PlayerMovement : MonoBehaviour {
 				Debug.DrawRay(transform.position, Vector3.down, Color.red);
 				if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, Vector3.down, 2f))
 				{
-					Debug.Log("Jumping");
 					body.AddForce(Vector3.up * jumpForce);
 				}
 				if (Input.GetKeyDown(KeyCode.LeftShift) && moveKeyPressed && canDash)
 				{
 					body.AddForce(Vector3.up * jumpForce);//add half the jump force for a dash
-					Debug.Log("rofl" + body.velocity.normalized);
 					body.AddForce(body.velocity.normalized * forwardSpeed * playerDashForce);
 					StartCoroutine(dashCooldownTimer());
 					StartCoroutine(lockMovementDuringDash());

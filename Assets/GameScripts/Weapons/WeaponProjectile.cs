@@ -1,16 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Weapon Projectile class - used for all projectiles
+/// Extendable for special types of projectiles
+/// </summary>
 public class WeaponProjectile : MonoBehaviour {
     protected int damage;//damage from weapon data from the weapon behaviour
-    protected float projectileSpeed;
-	private int disappearDistance = 2000;
-	private Rigidbody body;
-	protected virtual void Start () {
+    protected float projectileSpeed;//our fast our projectile should go
+	private int disappearDistance = 2000;//at what distance do we want the object to disappear
+    //because it'll no longer be useful and just cause performance
+    //issues
+	private Rigidbody body;//associated rigidbody of projectile
+	protected virtual void Start ()
+    {
         body = GetComponent<Rigidbody>();
 		StartCoroutine(disappearBullet());
-		//Debug.Log("Position: " + transform.position);
 	}
 	protected virtual void OnDisable()
 	{
@@ -29,35 +34,29 @@ public class WeaponProjectile : MonoBehaviour {
 	}
 	public virtual void weaponStats(int weaponDamage, float weaponProjectileSpeed)
     {
-        //set up projectile stats
         damage = weaponDamage;
         projectileSpeed = weaponProjectileSpeed;
-		///Debug.Log("Initial Position: " + transform.position);
 	}
-	// Update is called once per frame
 	protected virtual void FixedUpdate ()
     {
 		GameState state = GameStateManager.instance.GetCurrentGameState();
 		if (state != GameState.GAMEPAUSE && state != GameState.DEAD)
 		{
+            //we don't want these projectiles to move if the gamestate is set to dead
 			body.AddForce(transform.right * projectileSpeed);
 		}
 	}
     //collision detection
     //we'll use triggers for this
-    //right now we'll just make them disappear if they hit anything solid
     protected virtual void OnTriggerEnter(Collider other)
     {
         if (!other.GetComponent<WeaponProjectile>() && other.tag != "Triggers")
         {
-            //as long as the object isn't another projectile it can't
-            //destroy it
-            //
-            Debug.Log(other.name);
+            //as long as the object isn't another projectile or a trigger
+            //it can't destroy it
             HealthManager healthObject = other.GetComponent<HealthManager>();
-            if (healthObject)//i think this chekcs if hte object exists. I'm surprised it works
+            if (healthObject)
             {
-                //Debug.Log("Health Object: " + healthObject);
                 healthObject.takeDamage(damage);
             }
 			GetComponent<PooledObject>().pool.ReturnObject(this.gameObject);
@@ -70,11 +69,8 @@ public class WeaponProjectile : MonoBehaviour {
 		Vector3 originalPosition = transform.position;//position at time this func is called
 		while(Vector3.Distance(originalPosition, transform.position) < disappearDistance)
 		{
-			//Debug.Log("Active");
 			yield return new WaitForFixedUpdate();
 		}
-		//once while is done
-		//Debug.Log("Reached here");
 		GetComponent<PooledObject>().pool.ReturnObject(this.gameObject);
 	}
 }

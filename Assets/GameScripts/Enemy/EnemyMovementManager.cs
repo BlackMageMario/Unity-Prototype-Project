@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Manages the movement of an enemy
+/// </summary>
 public class EnemyMovementManager : MonoBehaviour {
     public EnemyMovementStats movementStats;
     public GameObject playerTarget;
     protected Rigidbody body;
-    //need to put in weapon to use
-    //possibly
-	// Use this for initialization
 	protected virtual void Start () {
         body = GetComponent<Rigidbody>();
 	}

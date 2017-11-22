@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(menuName = "PluggableAI/Actions/MeleeAction")]
+/// <summary>
+/// Melee action - check if in range, and then do the melee action
+/// </summary>
 public class MeleeAction : Action {
 
 	public override void Act(StateManager controller)
 	{
-		//throw new System.NotImplementedException();
 		meleeAttack(controller);
 	}
 
@@ -18,6 +20,7 @@ public class MeleeAction : Action {
 			controller.target.transform.position) < meleeAttack.meleeData.range)
 		{
 			//if in range, execute
+            //implementation details left in MeleeBehaviour
 			meleeAttack.swingMelee();
 		}
 	}

@@ -56,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1921726299720854}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.22, y: 1.29, z: -8.07}
+  m_LocalPosition: {x: 0.46, y: 3.1999998, z: 0.2}
   m_LocalScale: {x: 0.060978714, y: 0.060978714, z: 0.060978714}
   m_Children:
   - {fileID: 4261316501707712}
@@ -170,6 +170,7 @@ MonoBehaviour:
   soundForShot: {fileID: 8300000, guid: d146a88611079e0478c9ce981236753b, type: 3}
   defaultProjectilesToPool: 10
   preferredPosition: {x: 0.23, y: 0.06, z: 0.1}
+  preferredScale: {x: 0.03048936, y: 0.1219574, z: 0.03048936}
   firePoint: {fileID: 1742683992404178}
 --- !u!114 &114765252982015394
 MonoBehaviour:

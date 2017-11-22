@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/// <summary>
+/// Search for our player - we teleport to a random location in an attempt to find the player
+/// </summary>
 [CreateAssetMenu(menuName = "PluggableAI/Actions/SearchForPlayerAction")]
 public class SearchForPlayerAction : Action
 {
@@ -11,7 +14,7 @@ public class SearchForPlayerAction : Action
 	}
 	private void SearchForPlayer(StateManager controller)
 	{
-		//new idea = need new script
+		//teleporting is implemented in TeleportBehaviour
 		controller.GetComponent<TeleportBehaviour>().Teleport();
 	}
 }

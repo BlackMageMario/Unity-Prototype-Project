@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 /// <summary>
 /// Found from: https://unity3d.com/learn/tutorials/projects/2d-roguelike-tutorial/writing-game-manager
 /// Modified to be a UI Manager that uses singleton pattern
@@ -13,10 +14,10 @@ public class UIManager : MonoBehaviour
     //refactor this and break all the scripts that rely on it
     //so that the code won't be horrifying by the end
     public static UIManager instance = null;
-    public Text ammoText;
-	public Text waveAnnounceText;
-	public Text waveTrackText;
-    [SerializeField]private Text pickUpWeaponPopUp;
+    public TextMeshProUGUI ammoText;
+	public TextMeshProUGUI waveAnnounceText;
+	public TextMeshProUGUI waveTrackText;
+    [SerializeField]private TextMeshProUGUI pickUpWeaponPopUp;
     public Slider reloadMeter;
     public Slider healthMeter;
     public Slider armourMeter;

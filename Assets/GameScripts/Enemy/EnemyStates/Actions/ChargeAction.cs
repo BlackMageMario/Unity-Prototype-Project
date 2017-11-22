@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(menuName = "PluggableAI/Actions/ChargeAction")]
+/// <summary>
+/// Do the charge attack if we can. See charge behaviour
+/// </summary>
 public class ChargeAction : Action
 {
-	//public float ChargeDuration;
-	public float chargeForceX;
-	//this is a more one off action
 	public override void Act(StateManager controller)
 	{
 		ChargeTarget(controller);

@@ -26,7 +26,6 @@ public class PickUpSpawner : MonoBehaviour {
 	}
 	IEnumerator spawnItem()
 	{
-		Debug.Log("ITEM SPAWNING HAS BEGUN");
 		float currentTime = 0;
 		while(true)
 		{
@@ -44,13 +43,12 @@ public class PickUpSpawner : MonoBehaviour {
 					itemWanted = Random.Range(0, ItemsToSpawn.Length);
 				}
 				while (oneSpawnOnly.Contains(ItemsToSpawn[itemWanted]));//if its not we can spawn it
-				Debug.Log("Item wanted: " + itemWanted);
+				Debug.Log("Item wanted: " + ItemsToSpawn[itemWanted]);
 				GameObject toSpawn = Instantiate(ItemsToSpawn[itemWanted].ourPickup.gameObject);
 				int spawner = Random.Range(0, spawnLocation.Length);
 				toSpawn.transform.position = spawnLocation[spawner].transform.position;	
 				if(!ItemsToSpawn[itemWanted].spawnContinuous)
 				{
-					//if we only want to spawn it once - add it to onespawnonly list
 					oneSpawnOnly.Add(ItemsToSpawn[itemWanted]);
 				}
 				currentTime = 0;

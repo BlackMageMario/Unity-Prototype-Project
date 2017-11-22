@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// MeleeBehaviour for melee weapons
+/// designed to be extendable for special melee weapons
+/// </summary>
 public class MeleeBehaviour : MonoBehaviour {
-	public MeleeData meleeData;//what are we going to have in our melee data?
-							   // Use this for initialization
+	public MeleeData meleeData;
 	protected float range;
 	protected int damage;
-	protected float delayBetweenAttack;//in seconds
+	protected float delayBetweenAttack;//in seconds - determines how often we can attack
 	protected bool canAttack;
 	protected virtual void Start () {
 		canAttack = true;
@@ -20,13 +22,16 @@ public class MeleeBehaviour : MonoBehaviour {
 	{
 		if(canAttack)
 		{
+            //we use raycasts for our melee weapons
+            //this is functionally the best
+            //we would display an animation along with this to make it look nice
+            //and provide good feedback to the player
 			RaycastHit meleeHit;
 			if(Physics.Raycast(transform.position, transform.forward, out meleeHit, range))
 			{
 				HealthManager targetHealth = meleeHit.transform.GetComponent<HealthManager>();
 				if (targetHealth)
 				{
-					//valid target (for now)
 					targetHealth.takeDamage(damage);
 				}
 			}

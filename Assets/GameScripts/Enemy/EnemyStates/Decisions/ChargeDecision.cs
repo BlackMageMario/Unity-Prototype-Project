@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(menuName = "PluggableAI/Decisions/ChargeDecision")]
+/// <summary>
+/// Change to the charge state if we can charge the target - see ChargeBehaviour
+/// </summary>
 public class ChargeDecision : Decision {
 	public override bool Decide(StateManager state)
 	{
@@ -9,9 +12,7 @@ public class ChargeDecision : Decision {
 	}
 	private bool ChDecision(StateManager state)
 	{
-        //check whether the distance is smaller than the range
         bool value = state.GetComponent<ChargeBehaviour>().CanChargeTarget();
-        //Debug.Log("Beginning Charge? " + value);
         return value;
 	}
 }

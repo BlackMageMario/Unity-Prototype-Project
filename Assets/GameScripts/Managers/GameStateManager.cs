@@ -5,21 +5,22 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Singleton pattern found from: https://unity3d.com/learn/tutorials/projects/2d-roguelike-tutorial/writing-game-manager
 /// Example C# code used to design state machine: https://stackoverflow.com/questions/5923767/simple-state-machine-example-in-c
+/// A top level manager for the game state
 /// </summary>
 public class GameStateManager : MonoBehaviour {
 
-	// Use this for initialization
-	Dictionary<StateTransition, GameState> transitions;
-	public static GameStateManager instance = null;
+	Dictionary<StateTransition, GameState> transitions;//our transitions
+	public static GameStateManager instance = null;//singleton design
 	private GameState currentState;
-	private GameState initialState = GameState.STARTMENU;
+	private GameState initialState = GameState.STARTMENU;//the state we start in
 	private GameObject player;
 	private Camera ourCamera;
 	void Awake()
 	{
-		if (!instance)//if this doesn't exist
+        Cursor.lockState = CursorLockMode.Confined;//our cursor is confined to the game window
+        if (!instance)//if this doesn't exist
 		{
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(this.gameObject);//we want this manager to always exist
             instance = this;//this is our singleton
 		}
 		else
@@ -30,10 +31,13 @@ public class GameStateManager : MonoBehaviour {
 	}
 	private void createTransitions()
 	{
+        //create our transitions
+        //there's only going to be a limited amount of transitions in our game
+        //so we can justify defining them explicitly here
 		currentState = initialState;
 		transitions = new Dictionary<StateTransition, GameState>
         {
-			//format: new StateTraansition(startState, theTransition) and stateToTransitionTo
+			//format: new StateTransition(startState, theTransition) and stateToTransitionTo
 			{new StateTransition(GameState.STARTMENU, TransitionEnum.BEGINGAME), GameState.GAMEALIVE },
             {new StateTransition(GameState.STARTMENU,  TransitionEnum.GAMEMENUEXIT), GameState.EXIT },
 			{new StateTransition(GameState.GAMEALIVE, TransitionEnum.PAUSEGAME), GameState.GAMEPAUSE },
@@ -89,6 +93,8 @@ public class GameStateManager : MonoBehaviour {
         if (potentialState != currentState)
         {
             //can make the transition
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
             currentState = potentialState;
             UIManager.instance.GameRunningUI.gameObject.SetActive(false);
             UIManager.instance.GamePauseUI.gameObject.SetActive(true);
@@ -105,6 +111,8 @@ public class GameStateManager : MonoBehaviour {
         GameState potentialState = MoveNext(TransitionEnum.GAMEDIE);
         if(potentialState != currentState)
         {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
             currentState = potentialState;
             UIManager.instance.GameRunningUI.gameObject.SetActive(false);
             UIManager.instance.GameDeadUI.gameObject.SetActive(true);
@@ -126,10 +134,14 @@ public class GameStateManager : MonoBehaviour {
 			UIManager.instance.GameRunningUI.gameObject.SetActive(true);
 			if (player)
 			{
-				player.GetComponent<HealthManager>().resetHealth();
-				//reattach camera
+                SceneManager.LoadScene("TestScene");
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                //player.GetComponent<HealthManager>().resetHealth();
+                //this function is not finished
+                //player.transform.position = new Vector3(0, 0, 0);
 
-			}
+            }
 			//restart the game
 			//call reset on *basically* everything
 		}
@@ -144,6 +156,8 @@ public class GameStateManager : MonoBehaviour {
             UIManager.instance.GamePauseUI.gameObject.SetActive(false);
             UIManager.instance.GameRunningUI.gameObject.SetActive(true);
 			Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             //my brian is probably having trouble with logic really
             //do the opposite of the pause state, take down the pause menu and replace it
             //with the main UI state
@@ -159,6 +173,7 @@ public class GameStateManager : MonoBehaviour {
             UIManager.instance.GameStartUI.gameObject.SetActive(false);
 			SceneManager.LoadScene("TestScene");
             UIManager.instance.GameRunningUI.gameObject.SetActive(true);
+            Cursor.lockState = CursorLockMode.Locked;
             //begin the game
             //this might be a simple scene change... perhaps the main menu should be its own scene
             //perhaps make the gamestatemanager a DontDestroyOnLoad() object
